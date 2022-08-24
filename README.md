@@ -1,1 +1,1 @@
-# capstone_project
+# CPSC 491 Capstone Project
