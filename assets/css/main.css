@@ -1,0 +1,90 @@
+* {
+  margin:0;
+  padding: 0;
+}
+
+body {
+  font-family:"Monsterrat", sans-serif;
+  background-color: white;
+  
+}
+
+h2.mainText {
+  text-align: center;
+  margin-bottom: 4rem;
+  font-size: 50px;
+  color: black;
+}
+  
+.jumbotron {
+  padding-top: var(--jumbotron-padding-y);
+  padding-bottom: var(--jumbotron-padding-y);
+  margin-bottom: 0;
+  background-color: #fff;
+}
+@media (min-width: 768px) {
+  .jumbotron {
+    padding-top: calc(var(--jumbotron-padding-y) * 2);
+    padding-bottom: calc(var(--jumbotron-padding-y) * 2);
+  }
+}
+
+.jumbotron p:last-child {
+  margin-bottom: 0;
+}
+
+.jumbotron-heading {
+  font-weight: 300;
+}
+
+.jumbotron .container {
+  margin-top: 4rem;
+  max-width: 40rem;
+  margin-bottom: 4rem;
+}
+
+.carousel {
+  margin-bottom: 4rem;
+}
+
+.carousel-caption {
+  bottom: 2rem;
+  z-index: 10;
+  color: white;
+}
+
+.carousel-item {
+  height: 32rem;
+  background-color: #777;
+}
+.carousel-item > img {
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  height: 32rem;
+}
+
+
+.marketing .col-lg-4 {
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+.marketing h2 {
+  margin-top : 2rem;
+  font-weight: 300;
+}
+.marketing .col-lg-4 p {
+  margin-right: .75rem;
+  margin-left: .75rem;
+}
+
+.index-footer {
+  padding: 2.5rem 0;
+  color: #999;
+  text-align: center;
+  border-top: .05rem solid #e5e5e5;
+  margin-top: 4rem;
+}
