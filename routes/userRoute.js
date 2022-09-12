@@ -25,7 +25,7 @@ router.get('/', requireAuth, (req, res) => {
         _id: userId
     }).then((user) => {
         if (user) {
-            res.render('cardPreview', {
+            res.render('grouppage', {
                 user
             });
         }

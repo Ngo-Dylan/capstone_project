@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Sign Up Page</title>
+	<link rel="stylesheet" href="stylesheets/styles.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link rel="stylesheet" href="main.css">
+</head>
+
+<body class="container">
+	<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+		<h5 class="my-0 mr-md-auto font-weight-normal"><a href="/">SmartCard</a></h5>
+		<nav class="my-2 my-md-0 mr-md-3">
+			<a class="btn btn-outline-primary" href="login">Log in</a>
+		</nav>
+	</div>
+	<form action="user/register" method="post">
+		<h1 align="center">
+			<font color="blue">Create an Account</font>
+		</h1>
+		<p align="center">Required fields are followed by <strong><abbr title="required">
+					<font color="red">*</font>
+				</abbr></strong>.</p>
+		<section>
+			<div class="form-group">
+				<label for="mail">E-mail </label>
+				<strong><abbr title="required">
+						<font color="red">*</font>
+					</abbr></strong>
+				<input class="form-control" type="email" id="email" name="email" required>
+			</div>
+			<div class="form-group">
+				<label for="pwd">Password </label>
+				<strong><abbr title="required">
+						<font color="red">*</font>
+					</abbr></strong>
+				<input class="form-control" type="password" id="password" name="password" required>
+			</div>
+			<div class="form-group">
+				<label for="pwd2">Confirmed Password </label>
+				<strong><abbr title="required">
+						<font color="red">*</font>
+					</abbr></strong>
+				<input class="form-control" type="password" id="password2" name="password2" required>
+			</div>
+		</section>
+		<button type="submit" class="btn btn-outline-primary">Submit</button>
+		<button type="reset" class="btn btn-default">Reset</button>
+
+	</form>
+	<footer class="index-footer">
+		<p>Team2DE</p>
+	</footer>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js" charset="utf-8"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+	</script>
+
+
+</body>
+
+</html>

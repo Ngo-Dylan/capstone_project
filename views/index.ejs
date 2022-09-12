@@ -18,12 +18,19 @@
 
 <body>
   <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
-    <h5 class="my-0 mr-md-auto font-weight-normal"><a href="../views/home.html">App Name</a></h5>
+    <% if(user) { %>
+    <h5 class="my-0 mr-md-auto font-weight-normal" style="color: #007bff;">App Name</h5>
+    <h1>Logged in</h1>
+    <a class="btn btn-outline-primary" href="user/logout">Log Out</a>
+    <a class="btn btn-outline-primary" href="grouppage">group</a>
+    <% } else { %>
+    <h5 class="my-0 mr-md-auto font-weight-normal"><a href="/">App Name</a></h5>
     <nav class="my-2 my-md-0 mr-md-3">
-      <a class="btn btn-outline-primary" href="../views/login">Log in</a>
+        <a class="btn btn-outline-primary" href="login">Log in</a>
     </nav>
-    <a class="btn btn-outline-primary" href="../views/signup">Sign up</a>
-  </div>
+    <a class="btn btn-outline-primary" href="signup">Sign up</a>
+    <% } %>
+</div>
 
   <main role="main">
     <section class="jumbotron text-center">
@@ -31,7 +38,7 @@
         <h1 class="jumbotron-heading">One WorkSpace for Everyone</h1>
         <p class="lead text-muted">Detailed Intro </p>
         <p>
-          <a class="btn btn-primary my-2" href="../views/signup">Try App Free</a>
+          <a class="btn btn-primary my-2" href="signup">Try App Free</a>
         </p>
         </div>
     </section>
