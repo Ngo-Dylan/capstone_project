@@ -98,4 +98,4 @@ app.get('/tproute', function (req, res) {
 });
 
 // startup our app at http://localhost:3000
-app.listen(port, () => console.log(`App listening on port ${port}!`));
+app.listen(process.env.PORT || 3000, () => console.log(`App listening on port ${port}!`));
