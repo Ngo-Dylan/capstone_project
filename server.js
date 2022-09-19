@@ -81,9 +81,7 @@ app.get('/delete', (req, res) => {
    res.render('delete');
 });
 
-app.get('/grouppage', (req, res) => {
-   res.render('grouppage');
-});
+
 
 //defining routes
 const userRoute = require('./routes/userRoute');
