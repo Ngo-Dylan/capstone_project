@@ -19,92 +19,131 @@
 <body>
   <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
     <% if(user) { %>
-    <h5 class="my-0 mr-md-auto font-weight-normal" style="color: #007bff;">App Name</h5>
-    <h1>Logged in</h1>
-    <a class="btn btn-outline-primary" href="user/logout">Log Out</a>
-    <a class="btn btn-outline-primary" href="grouppage">group</a>
+      <h5 class="my-0 mr-md-auto font-weight-normal" style="color: #007bff;">Hello, there!</h5>
+      <a class="btn btn-outline-primary" href="user/logout">Log out</a>
     <% } else { %>
-    <h5 class="my-0 mr-md-auto font-weight-normal"><a href="/">App Name</a></h5>
-    <nav class="my-2 my-md-0 mr-md-3">
-      <a class="btn btn-outline-primary" href="login">Log in</a>
-    </nav>
-    <a class="btn btn-outline-primary" href="signup">Sign up</a>
+      <h5 class="my-0 mr-md-auto font-weight-normal"><a href="/">App Name</a></h5>
+      <nav class="my-2 my-md-0 mr-md-3">
+        <a class="btn btn-outline-primary" href="login">Log in</a>
+      </nav>
+      <a class="btn btn-outline-primary" href="signup">Sign up</a>
     <% } %>
   </div>
 
-  <main role="main">
-    <section class="jumbotron text-center">
-      <div class="container">
-        <h1 class="jumbotron-heading">One WorkSpace for Everyone</h1>
-        <p class="lead text-muted">
-          A place where you can belong to a group. 
-          A place that makes it easy to talk and work with colleagues every day. Or you can simply hang out. 
-        </p>
-        <p>
-          <a class="btn btn-primary my-2" href="signup">Try App Free</a>
-        </p>
+  <% if(user) { %>
+    <main role="main">
+      <section class="jumbotron text-center">
+        <div class="container">
+          <h1 class="jumbotron-heading">Welcome to Your Dashboard</h1>
+          <p class="lead text-muted"></p>
+          <p>
+            <a class="btn btn-link" href="agendaboard">Agenda Board</a>
+            <a class="btn btn-link" href="calendar">Calendar</a>
+            <a class="btn btn-link" href="list">Lists</a>
+            <a class="btn btn-link" href="messenger">Messenger</a>
+            <a class="btn btn-link" href="notification">Notifications</a>
+          </p>
         </div>
-    </section>
+      </section>
+      <div class="container marketing">
+        <hr class="featurette-divider">
+        <h2 class="mainText">Groups</h2>
+        <div class="row">
+          <div class="col-lg-4">
+            <h2>Group 1</h2>
+          </div>
+          <div class="col-lg-4">
+            <h2>Group 2</h2>
+          </div>
+          <div class="col-lg-4">
+            <h2>Group 3</h2>
+          </div>
+          <div class="col-lg-4">
+            <h2>Group 4</h2>
+          </div>
+          <div class="col-lg-4">
+            <h2>Group 5</h2>
+          </div>
+          <div class="col-lg-4">
+            <h2>Group 6</h2>
+          </div>
+        </div>
+      </div>
+    </main>
+  <% } else { %>
+    <main role="main">
+      <section class="jumbotron text-center">
+        <div class="container">
+          <h1 class="jumbotron-heading">One WorkSpace for Everyone</h1>
+          <p class="lead text-muted">
+            A place where you can belong to a group. 
+            A place that makes it easy to talk and work with colleagues every day. Or you can simply hang out. 
+          </p>
+          <p>
+            <a class="btn btn-primary my-2" href="signup">Try App Free</a>
+          </p>
+          </div>
+      </section>
 
-    <div id="pics-Slide" class="carousel slide" data-ride="carousel">
-      <ol class="carousel-indicators">
-          <li data-target="#pics-Slide" data-slide-to="0" class="active"></li>
-          <li data-target="#pics-Slide" data-slide-to="1"></li>
-          <li data-target="#pics-Slide" data-slide-to="2"></li>
-      </ol>
-      <div class="carousel-inner">
-        <div class="carousel-item active">
-          <img class="first-slide" src="sliding-pic-1.jpeg" alt="First slide">
-          <div class="container">
-            <div class="carousel-caption text-center">
-              <h1>Planner and More</h1>
-            </div>
-          </div>
-        </div>
-        <div class="carousel-item">
-          <img class="second-slide" src="sliding-pic-2.jpeg" alt="Second slide">
-          <div class="container">
-            <div class="carousel-caption text-center">
-              <h1>Stay Productive</h1>
-            </div>
-          </div>
-        </div>
-        <div class="carousel-item">
-          <img class="third-slide" src="sliding-pic-3.jpeg" alt="Third slide">
+      <div id="pics-Slide" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#pics-Slide" data-slide-to="0" class="active"></li>
+            <li data-target="#pics-Slide" data-slide-to="1"></li>
+            <li data-target="#pics-Slide" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img class="first-slide" src="sliding-pic-1.jpeg" alt="First slide">
             <div class="container">
               <div class="carousel-caption text-center">
-                <h1>Work with Others</h1>
+                <h1>Planner and More</h1>
               </div>
             </div>
+          </div>
+          <div class="carousel-item">
+            <img class="second-slide" src="sliding-pic-2.jpeg" alt="Second slide">
+            <div class="container">
+              <div class="carousel-caption text-center">
+                <h1>Stay Productive</h1>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <img class="third-slide" src="sliding-pic-3.jpeg" alt="Third slide">
+              <div class="container">
+                <div class="carousel-caption text-center">
+                  <h1>Work with Others</h1>
+                </div>
+              </div>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="container marketing">
-      <h2 class="mainText">Get Started for Free</h2>
-      <hr class="featurette-divider">
-      <div class="row">
+      <div class="container marketing">
+        <h2 class="mainText">Get Started for Free</h2>
+        <hr class="featurette-divider">
+        <div class="row">
+          <div class="col-lg-4">
+            <img src="account.png" alt="Generic placeholder image" width="100" height="100">
+            <h2>1. Create an Account</h2>
+          </div>
         <div class="col-lg-4">
-          <img src="account.png" alt="Generic placeholder image" width="100" height="100">
-          <h2>1. Create an Account</h2>
+          <img src="organizelist.png" alt="Generic placeholder image" width="100" height="100">
+          <h2>2. Organize Your List</h2>
         </div>
-      <div class="col-lg-4">
-        <img src="organizelist.png" alt="Generic placeholder image" width="100" height="100">
-        <h2>2. Organize Your List</h2>
-      </div>
-        <div class="col-lg-4">
-          <img src="collab.png" alt="Generic placeholder image" width="100" height="100">
-          <h2>3. Share The Work</h2>
+          <div class="col-lg-4">
+            <img src="collab.png" alt="Generic placeholder image" width="100" height="100">
+            <h2>3. Share The Work</h2>
+          </div>
         </div>
       </div>
-    </div>
 
-    <footer class="index-footer">
-      <p class="float-right"><a href="#">Back to top</a></p>
-      <p>Group 5</p>
-    </footer>
-  </main>
-
+      <footer class="index-footer">
+        <p class="float-right"><a href="#">Back to top</a></p>
+        <p>Group 5</p>
+      </footer>
+    </main>
+  <% } %>
   <script 
     src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
     integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" 
