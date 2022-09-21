@@ -14,6 +14,30 @@ const {
     deleteValidation
 } = require('../validation')
 
+router.get('/grouppage', (req, res) => {
+    res.render('grouppage');
+ });
+
+ router.get('/notification', (req, res) => {
+    res.render('notification');
+ });
+
+ router.get('/list', (req, res) => {
+    res.render('list');
+ });
+
+ router.get('/agendaboard', (req, res) => {
+    res.render('agendaboard');
+ });
+
+ router.get('/messenger', (req, res) => {
+    res.render('messenger');
+ });
+
+ router.get('/calendar', (req, res) => {
+    res.render('calendar');
+ });
+
 //user profile page
 router.get('/', requireAuth, (req, res) => {
     const token = req.cookies.jwt;
@@ -25,7 +49,7 @@ router.get('/', requireAuth, (req, res) => {
         _id: userId
     }).then((user) => {
         if (user) {
-            res.render('grouppage', {
+            res.render('index', {
                 user
             });
         }
