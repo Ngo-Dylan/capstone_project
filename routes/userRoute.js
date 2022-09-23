@@ -1,6 +1,7 @@
 const express = require('express');
 const router = require('express').Router();
 const User = require('../models/User');
+const Group = require('../models/Group');
 const jwt = require('jsonwebtoken');
 const {
     requireAuth
@@ -10,6 +11,7 @@ const fs = require('fs');
 const path = require('path');
 const {
     registerValidation,
+    groupValidation,
     loginValidation,
     deleteValidation
 } = require('../validation')
@@ -36,6 +38,10 @@ router.get('/grouppage', (req, res) => {
 
  router.get('/calendar', (req, res) => {
     res.render('calendar');
+ });
+
+ router.get('/create', (req, res) => {
+    res.render('create');
  });
 
 //user profile page
@@ -347,6 +353,56 @@ router.post('/login', async (req, res) => {
     }
 });
 
+//Make a group
+router.post('/create', requireAuth, async (req, res) => {
+    const {
+        error
+    } = groupValidation(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
+
+    //Checking if the user is already in the db.
+    const groupExists = await Group.findOne({
+        groupName: req.body.groupName
+    });
+    if (groupExists) return res.status(400).send('group already exists');
+
+    const token = req.cookies.jwt;
+    const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
+    var userId = decoded.id;
+    //Create new group.
+    const group = new Group({
+        groupName: req.body.groupName,
+        groupCreator: userId
+    });
+
+    User.findOneAndUpdate({
+        _id: userId
+    }, {
+        $push: {
+            groups: group._id
+        }
+    }, {
+        new: true
+    }, (err, doc) => {
+        if (err) {
+            console.log("Something went wrong");
+        }
+        console.log("Added to group");
+    });
+
+    try {
+        const savedGroup = await group.save();
+        res.redirect('/');
+    } catch (err) {
+        res.status(400).send(err);
+    }
+
+
+});
+
+//Add to group
+router.post('/add', requireAuth, async (req, res) => {
+});
 
 //Log out
 router.get('/logout', async (req, res) => {
