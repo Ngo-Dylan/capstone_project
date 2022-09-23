@@ -10,7 +10,7 @@ const groupSchema = new mongoose.Schema({
         type: mongoose.ObjectId
     }, 
     groupMembers: {
-        type: mongoose.ObjectId
+        type: [mongoose.ObjectId]
     }
 });
 

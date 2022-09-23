@@ -43,6 +43,9 @@ router.get('/grouppage', (req, res) => {
  router.get('/create', (req, res) => {
     res.render('create');
  });
+ router.get('/add', (req, res) => {
+    res.render('addtogroup');
+ });
 
 //user profile page
 router.get('/', requireAuth, (req, res) => {
@@ -402,6 +405,45 @@ router.post('/create', requireAuth, async (req, res) => {
 
 //Add to group
 router.post('/add', requireAuth, async (req, res) => {
+    const token = req.cookies.jwt;
+    const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
+    var userId = decoded.id;
+
+    const group = await Group.findOne({
+        groupName: req.body.groupName
+    });
+
+
+    Group.findOneAndUpdate({
+        groupName: req.body.groupName
+    }, {
+        $push: {
+            groupMembers: userId
+        }
+    }, {
+        new: true
+    }, (err, doc) => {
+        if (err) {
+            console.log("Something went wrong");
+        }
+        console.log("user added");
+    });
+
+    User.findOneAndUpdate({
+        _id: userId
+    }, {
+        $push: {
+            groups: group._id.toString()
+        }
+    }, {
+        new: true
+    }, (err, doc) => {
+        if (err) {
+            console.log("Something went wrong");
+        }
+        console.log("Added to group");
+    });
+    res.redirect('/');
 });
 
 //Log out
