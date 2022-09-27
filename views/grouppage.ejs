@@ -24,13 +24,6 @@
     <h5 class="my-0 mr-md-auto font-weight-normal"><a href="/">App Name</a></h5>
     <a class="btn btn-outline-primary" href="../../user/logout">Log out</a>
   </div>
-  <section>
-    <h2>Group Creator: <%= group.groupCreator %></h2>
-    <h3>Group Members: </h3>
-    <% for (var i = 0; i < group.groupMembers.length; i++) { %>
-      <h3><%= group.groupMembers[i] %></h3>
-    <% } %>
-  </section>
 
   <main role="main">
     <section class="jumbotron text-center" style="background-color: white; padding: 0rem 0rem;">
@@ -45,6 +38,22 @@
           <a class="btn btn-link" href="<%=group.groupName%>/notification">Notifications</a>
         </p>
       </div>
+      <hr class="featurette-divider">
+      <section style="padding-top: 2rem;">
+        <h4>Group Creator: <a href = "mailto: <%= group.groupCreator %>"><%= group.groupCreator %></a></h4>
+
+        <p style="padding-top: 2rem;">
+          <div class="d-flex justify-content-around">
+            <ul class="list-group" style="min-width: 300px;">
+              <li class="list-group-item active">Group Member(s):</li>
+              <li class="list-group-item"><a href = "mailto: <%= group.groupCreator %>"><%= group.groupCreator %></a></li>
+              <% for (var i = 0; i < group.groupMembers.length; i++) { %>
+                <li class="list-group-item"><a href = "mailto: <%= group.groupMembers[i] %>"><%= group.groupMembers[i] %></a></li>
+              <% } %>
+            </ul>
+          </div>
+        </p>
+      </section>
     </section>
   </main>
 
