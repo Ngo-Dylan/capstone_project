@@ -37,6 +37,7 @@
           <h1 class="jumbotron-heading">Welcome to Your Dashboard</h1>
           <p class="lead text-muted"></p>
           <p>
+            
             <a class="btn btn-link" href="user/agendaboard">Agenda Board</a>
             <a class="btn btn-link" href="user/calendar">Calendar</a>
             <a class="btn btn-link" href="user/list">Lists</a>
@@ -45,30 +46,23 @@
           </p>
         </div>
       </section>
-      <div class="container marketing">
-        <hr class="featurette-divider">
-        <h2 class="mainText">Groups</h2>
-        <div class="row">
-          <div class="col-lg-4">
-            <h2>Group 1</h2>
-          </div>
-          <div class="col-lg-4">
-            <h2>Group 2</h2>
-          </div>
-          <div class="col-lg-4">
-            <h2>Group 3</h2>
-          </div>
-          <div class="col-lg-4">
-            <h2>Group 4</h2>
-          </div>
-          <div class="col-lg-4">
-            <h2>Group 5</h2>
-          </div>
-          <div class="col-lg-4">
-            <h2>Group 6</h2>
-          </div>
-        </div>
-      </div>
+      <a class="btn btn-outline-primary" href="user/create">create group</a>
+      <a class="btn btn-outline-primary" href="user/add">add to group</a>
+      <% if (user.groups.length) {
+        for (var i = 0; i < user.groups.length; i++) { %>
+          <form action="user/group/<%=user.groups[i]%>" method="get">
+            <button type="submit"><%=user.groups[i]%></button>
+          </form>
+         
+        <% }
+        
+        }
+        else { %>
+            <h2>No Groups</h2>
+        <% } %>
+      
+      
+
     </main>
   <% } else { %>
     <main role="main">

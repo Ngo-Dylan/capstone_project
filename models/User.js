@@ -56,7 +56,7 @@ const userSchema = new mongoose.Schema({
         min: 6
     }, 
     groups: {
-        type: [mongoose.ObjectId]
+        type: [String]
     }
 });
 

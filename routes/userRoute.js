@@ -14,30 +14,61 @@ const {
     groupValidation,
     loginValidation,
     deleteValidation
-} = require('../validation')
+} = require('../validation');
 
-router.get('/grouppage', (req, res) => {
-    res.render('grouppage');
+ router.get('/group/:groupName/notification', async (req, res) => {
+    const group = await Group.findOne({
+        groupName: req.params.groupName
+    });
+    if (!group) return res.status(400).send('Group is not found.');
+    console.log(group)
+    res.render('notification', {
+        group
+    });
  });
 
- router.get('/notification', (req, res) => {
-    res.render('notification');
+ router.get('/group/:groupName/list', async (req, res) => {
+    const group = await Group.findOne({
+        groupName: req.params.groupName
+    });
+    if (!group) return res.status(400).send('Group is not found.');
+    console.log(group)
+    res.render('list', {
+        group
+    });
  });
 
- router.get('/list', (req, res) => {
-    res.render('list');
+ router.get('/group/:groupName/agendaboard', async (req, res) => {
+    const group = await Group.findOne({
+        groupName: req.params.groupName
+    });
+    if (!group) return res.status(400).send('Group is not found.');
+    console.log(group)
+    res.render('agendaboard', {
+        group
+    });
  });
 
- router.get('/agendaboard', (req, res) => {
-    res.render('agendaboard');
+ router.get('/group/:groupName/messenger', async (req, res) => {
+    const group = await Group.findOne({
+        groupName: req.params.groupName
+    });
+    if (!group) return res.status(400).send('Group is not found.');
+    console.log(group)
+    res.render('messenger', {
+        group
+    });
  });
 
- router.get('/messenger', (req, res) => {
-    res.render('messenger');
- });
-
- router.get('/calendar', (req, res) => {
-    res.render('calendar');
+ router.get('/group/:groupName/calendar', async (req, res) => {
+    const group = await Group.findOne({
+        groupName: req.params.groupName
+    });
+    if (!group) return res.status(400).send('Group is not found.');
+    console.log(group)
+    res.render('calendar', {
+        group
+    });
  });
 
  router.get('/create', (req, res) => {
@@ -52,7 +83,6 @@ router.get('/', requireAuth, (req, res) => {
     const token = req.cookies.jwt;
     const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
     var userId = decoded.id;
-    console.log(userId);
     // Fetch the user by id
     User.findOne({
         _id: userId
@@ -64,6 +94,34 @@ router.get('/', requireAuth, (req, res) => {
         }
     });
 });
+
+//group page
+router.get('/group/:groupName', async (req, res) => {
+    console.log("running");
+    const token = req.cookies.jwt;
+    const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
+    var userId = decoded.id;
+    const group = await Group.findOne({
+        groupName: req.params.groupName
+    });
+    if (!group) return res.status(400).send('Group is not found.');
+    console.log(group);
+    try{
+        // Fetch the user by id
+    User.findOne({
+        _id: userId
+    }).then((user) => {
+        if (user) {
+            res.render('grouppage', {
+                group, user   
+            });
+        }
+    });
+    } catch (err) {
+        res.status(400).send(err);
+    }
+});
+
 
 //creating a token used for the user in the current session
 const maxAge = 3 * 24 * 60 * 60;
@@ -154,188 +212,6 @@ router.post('/delete', requireAuth, async (req, res) => {
     });
 });
 
-//Edit profile
-router.post('/edit_profile', requireAuth, async (req, res) => {
-    console.log(req.file);
-    const token = req.cookies.jwt;
-    const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
-    var userId = decoded.id;
-    /*
-        if(req.body.password){
-            const salt = await bcrypt.genSalt(10);
-            const hashedPassword = await bcrypt.hash(req.body.password, salt);
-            User.findOneAndUpdate({_id: userId}, {$set:{password: hashedPassword}}, {new: true}, (err, doc) => {
-                if(err){
-                    console.log("Something went wrong");
-                }
-                console.log("Pass updated");
-            });
-        }
-    */
-    if (req.body.firstName) {
-        User.findOneAndUpdate({
-            _id: userId
-        }, {
-            $set: {
-                firstName: req.body.firstName
-            }
-        }, {
-            new: true
-        }, (err, doc) => {
-            if (err) {
-                console.log("Something went wrong");
-            }
-            console.log("First name updated");
-        });
-    }
-    if (req.body.lastName) {
-        User.findOneAndUpdate({
-            _id: userId
-        }, {
-            $set: {
-                lastName: req.body.lastName
-            }
-        }, {
-            new: true
-        }, (err, doc) => {
-            if (err) {
-                console.log("Something went wrong");
-            }
-            console.log("Last name updated");
-        });
-    }
-    if (req.body.street) {
-        User.findOneAndUpdate({
-            _id: userId
-        }, {
-            $set: {
-                street: req.body.street
-            }
-        }, {
-            new: true
-        }, (err, doc) => {
-            if (err) {
-                console.log("Something went wrong");
-            }
-            console.log("Street updated");
-        });
-    }
-    if (req.body.city) {
-        User.findOneAndUpdate({
-            _id: userId
-        }, {
-            $set: {
-                city: req.body.city
-            }
-        }, {
-            new: true
-        }, (err, doc) => {
-            if (err) {
-                console.log("Something went wrong");
-            }
-            console.log("City updated");
-        });
-    }
-    if (req.body.state) {
-        User.findOneAndUpdate({
-            _id: userId
-        }, {
-            $set: {
-                state: req.body.state
-            }
-        }, {
-            new: true
-        }, (err, doc) => {
-            if (err) {
-                console.log("Something went wrong");
-            }
-            console.log("State updated");
-        });
-    }
-    if (req.body.zip) {
-        User.findOneAndUpdate({
-            _id: userId
-        }, {
-            $set: {
-                zip: req.body.zip
-            }
-        }, {
-            new: true
-        }, (err, doc) => {
-            if (err) {
-                console.log("Something went wrong");
-            }
-            console.log("ZIP updated");
-        });
-    }
-    if (req.body.title) {
-        User.findOneAndUpdate({
-            _id: userId
-        }, {
-            $set: {
-                title: req.body.title
-            }
-        }, {
-            new: true
-        }, (err, doc) => {
-            if (err) {
-                console.log("Something went wrong");
-            }
-            console.log("Title updated");
-        });
-    }
-    if (req.body.occupation) {
-        User.findOneAndUpdate({
-            _id: userId
-        }, {
-            $set: {
-                occupation: req.body.occupation
-            }
-        }, {
-            new: true
-        }, (err, doc) => {
-            if (err) {
-                console.log("Something went wrong");
-            }
-            console.log("Occupation updated");
-        });
-    }
-    if (req.body.phone) {
-        User.findOneAndUpdate({
-            _id: userId
-        }, {
-            $set: {
-                phone: req.body.phone
-            }
-        }, {
-            new: true
-        }, (err, doc) => {
-            if (err) {
-                console.log("Something went wrong");
-            }
-            console.log("Phone updated");
-        });
-    }
-    if (req.body.bio) {
-        User.findOneAndUpdate({
-            _id: userId
-        }, {
-            $set: {
-                bio: req.body.bio
-            }
-        }, {
-            new: true
-        }, (err, doc) => {
-            if (err) {
-                console.log("Something went wrong");
-            }
-            console.log("Bio updated");
-        });
-    }
-
-    res.redirect('/user');
-});
-
 //Login
 router.post('/login', async (req, res) => {
     const {
@@ -382,7 +258,7 @@ router.post('/create', requireAuth, async (req, res) => {
         _id: userId
     }, {
         $push: {
-            groups: group._id
+            groups: group.groupName
         }
     }, {
         new: true
@@ -433,7 +309,7 @@ router.post('/add', requireAuth, async (req, res) => {
         _id: userId
     }, {
         $push: {
-            groups: group._id.toString()
+            groups: group.groupName
         }
     }, {
         new: true
@@ -448,11 +324,19 @@ router.post('/add', requireAuth, async (req, res) => {
 
 //Log out
 router.get('/logout', async (req, res) => {
+    console.log('in logout');
     res.cookie('jwt', '', {
         maxAge: 1
     });
     res.redirect('/');
 });
 
+router.get('/group/logout', async (req, res) => {
+    console.log('in logout');
+    res.cookie('jwt', '', {
+        maxAge: 1
+    });
+    res.redirect('/');
+});
 
 module.exports = router;
