@@ -7,10 +7,10 @@ const groupSchema = new mongoose.Schema({
         type: String
     }, 
     groupCreator: {
-        type: mongoose.ObjectId
+        type: String
     }, 
     groupMembers: {
-        type: [mongoose.ObjectId]
+        type: [String]
     }
 });
 

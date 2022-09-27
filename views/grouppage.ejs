@@ -18,7 +18,7 @@
 
 <body>
   <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
-    <h5>Group Page for <%=group.groupName%></h5>
+    <h5>Group Page for <%= group.groupName %></h5>
     <a class="btn btn-outline-primary" href="<%=group.groupName%>/notification">notification</a>
     <a class="btn btn-outline-primary" href="<%=group.groupName%>/list">list</a>
     <a class="btn btn-outline-primary" href="<%=group.groupName%>/agendaboard">agenda board</a>
@@ -26,6 +26,16 @@
     <a class="btn btn-outline-primary" href="<%=group.groupName%>/calendar">calendar</a>
     <a class="btn btn-outline-primary" href="/">homepage</a>
   </div>
+  <section>
+    <h2>Group Creator: <%= group.groupCreator %></h2>
+    <h3>Group Members: </h3>
+    <% for (var i = 0; i < group.groupMembers.length; i++) { %>
+      <h3><%= group.groupMembers[i] %></h3>
+    <% } %>
+      
+      
+
+  </section>
 
 
   <script 

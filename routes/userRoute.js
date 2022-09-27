@@ -248,10 +248,16 @@ router.post('/create', requireAuth, async (req, res) => {
     const token = req.cookies.jwt;
     const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
     var userId = decoded.id;
+
+    const user = await User.findOne({
+        _id: userId
+    });
+    if (!user) return res.status(400).send('User is not found.');
+
     //Create new group.
     const group = new Group({
         groupName: req.body.groupName,
-        groupCreator: userId
+        groupCreator: user.email
     });
 
     User.findOneAndUpdate({
@@ -289,12 +295,17 @@ router.post('/add', requireAuth, async (req, res) => {
         groupName: req.body.groupName
     });
 
+    const user = await User.findOne({
+        _id: userId
+    });
+    if (!user) return res.status(400).send('User is not found.');
+
 
     Group.findOneAndUpdate({
         groupName: req.body.groupName
     }, {
         $push: {
-            groupMembers: userId
+            groupMembers: user.email
         }
     }, {
         new: true
