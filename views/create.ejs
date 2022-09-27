@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Create a Group Page</title>
+	<link 
+    rel="stylesheet" 
+    href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" 
+    crossorigin="anonymous">
+	<link 
+    rel="stylesheet" 
+    href="main.css">
+</head>
+
+<body class="container">
+
+	<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+		<h5 class="my-0 mr-md-auto font-weight-normal"><a href="/">App Name</a></h5>
+		<nav class="my-2 my-md-0 mr-md-3">
+			<a class="btn btn-outline-primary" href="login">Log in</a>
+		</nav>
+	</div>
+
+	<form action="create" method="post">
+
+		<h1 align="center">
+			<span style="color: blue">Create an Account</span>
+		</h1>
+
+		<p align="center">Required fields are followed by
+      <strong>
+        <abbr title="required">
+          <span style="color: red">*</span>
+        </abbr>
+      </strong>
+    </p>
+
+		<section>
+			<div class="form-group">
+				<label for="mail">Group Name </label>
+				<strong>
+          <abbr title="required">
+            <span style="color: red">*</span>
+					</abbr>
+        </strong>
+				<input class="form-control" type="groupName" id="groupName" name="groupName" required>
+			</div>
+
+		</section>
+
+		<button type="submit" class="btn btn-outline-primary">Submit</button>
+		<button type="reset" class="btn btn-default">Reset</button>
+
+	</form>
+
+	<footer class="index-footer">
+		<p>Group 5</p>
+	</footer>
+
+</body>
+</html>

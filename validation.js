@@ -23,6 +23,17 @@ const registerValidation = (data) => {
     return schema.validate(data);
 }
 
+//Group validation
+const groupValidation = (data) => {
+    const schema = Joi.object({
+        groupName: Joi.string()
+            .min(6)
+            .required()
+    });
+    return schema.validate(data);
+}
+
+
 //Login validation
 const loginValidation = (data) => {
     const schema = Joi.object({
@@ -50,5 +61,6 @@ const deleteValidation = (data) => {
 
 
 module.exports.registerValidation = registerValidation;
+module.exports.groupValidation = groupValidation;
 module.exports.loginValidation = loginValidation;
 module.exports.deleteValidation = deleteValidation;

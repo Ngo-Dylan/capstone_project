@@ -54,11 +54,13 @@ const userSchema = new mongoose.Schema({
         type: String,
         max: 1024,
         min: 6
-    },
-    image: {
-        type: String
+    }, 
+    groups: {
+        type: [String]
     }
 });
+
+
 
 // static method to login user
 userSchema.statics.login = async function (email, password) {
