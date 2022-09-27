@@ -14,6 +14,9 @@
   <link 
     rel="stylesheet" 
     href="main.css">
+  <link
+    rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 </head>
 
 <body>
@@ -32,41 +35,55 @@
 
   <% if(user) { %>
     <main role="main">
-      <section class="jumbotron text-center">
+      <section class="jumbotron text-center" style="background-color: white; padding: 0rem 0rem;">
         <div class="container">
-          <h1 class="jumbotron-heading">Welcome to Your Dashboard</h1>
+          <h1 class="jumbotron-heading">Welcome to Your Group Page</h1>
           <p class="lead text-muted"></p>
-          <p>
-            
-            <a class="btn btn-link" href="user/agendaboard">Agenda Board</a>
-            <a class="btn btn-link" href="user/calendar">Calendar</a>
-            <a class="btn btn-link" href="user/list">Lists</a>
-            <a class="btn btn-link" href="user/messenger">Messenger</a>
-            <a class="btn btn-link" href="user/notification">Notifications</a>
+          <p style="padding-top: 2rem;">
+            <% if (user.groups.length) { %>
+              <a class="btn btn-outline-primary" href="user/create">Create Group</a>
+              <a class="btn btn-outline-primary" href="user/add">Join a Group</a>  
+            <%} else { %>
+              <div class="d-flex justify-content-around">
+                <div class="card" style="width: 18rem;">
+                  <div class="card-body">
+                    <h5 class="card-title">Let's get started!</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Create or Join a Group</h6>
+                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ultrices tristique ligula id maximus.</p>
+                    <a href="user/create" class="card-link">Create Group</a>
+                    <a href="user/add" class="card-link">Join a Group</a>
+                  </div>
+                </div>
+              </div>
+            <% } %>
           </p>
         </div>
       </section>
-      <a class="btn btn-outline-primary" href="user/create">create group</a>
-      <a class="btn btn-outline-primary" href="user/add">add to group</a>
-      <% if (user.groups.length) {
-        for (var i = 0; i < user.groups.length; i++) { %>
-          <form action="user/group/<%=user.groups[i]%>" method="get">
-            <button type="submit"><%=user.groups[i]%></button>
-          </form>
-         
-        <% }
-        
-        }
-        else { %>
-            <h2>No Groups</h2>
-        <% } %>
-      
-      
 
+      <div class="container marketing">
+        <% if (user.groups.length) { %>
+          <hr class="featurette-divider">
+          <h2 class="mainText">Group(s)</h2>
+          <div class="row">
+            <% for (var i = 0; i < user.groups.length; i++) { %>
+              <div class="col-lg-4">
+                <div class="card" style="width: 18rem;">
+                  <img src="groupcover.JPG" class="card-img-top">
+                  <div class="card-body">
+                    <h5 class="card-title"><%=user.groups[i]%></h5>
+                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ultrices tristique ligula id maximus.</p>
+                    <a href="user/group/<%=user.groups[i]%>" class="stretched-link"></a>
+                  </div>
+                </div>
+              </div> 
+            <% } %>
+          </div>
+        <% } %>
+      </div>
     </main>
   <% } else { %>
     <main role="main">
-      <section class="jumbotron text-center">
+      <section class="jumbotron text-center" style="background-color: white; padding: 0rem 0rem;">
         <div class="container">
           <h1 class="jumbotron-heading">One WorkSpace for Everyone</h1>
           <p class="lead text-muted">

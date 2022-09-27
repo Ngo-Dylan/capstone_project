@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Group Page</title>
+  <title><%=group.groupName%> Group</title>
   <link 
     rel="stylesheet" 
     href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -14,17 +14,15 @@
   <link 
     rel="stylesheet" 
     href="main.css">
+  <link
+    rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 </head>
 
 <body>
   <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
-    <h5>Group Page for <%= group.groupName %></h5>
-    <a class="btn btn-outline-primary" href="<%=group.groupName%>/notification">notification</a>
-    <a class="btn btn-outline-primary" href="<%=group.groupName%>/list">list</a>
-    <a class="btn btn-outline-primary" href="<%=group.groupName%>/agendaboard">agenda board</a>
-    <a class="btn btn-outline-primary" href="<%=group.groupName%>/messenger">messenger</a>
-    <a class="btn btn-outline-primary" href="<%=group.groupName%>/calendar">calendar</a>
-    <a class="btn btn-outline-primary" href="/">homepage</a>
+    <h5 class="my-0 mr-md-auto font-weight-normal"><a href="/">App Name</a></h5>
+    <!-- <a class="btn btn-outline-primary" href="user/logout">Log out</a> -->
   </div>
   <section>
     <h2>Group Creator: <%= group.groupCreator %></h2>
@@ -32,11 +30,23 @@
     <% for (var i = 0; i < group.groupMembers.length; i++) { %>
       <h3><%= group.groupMembers[i] %></h3>
     <% } %>
-      
-      
-
   </section>
 
+  <main role="main">
+    <section class="jumbotron text-center" style="background-color: white; padding: 0rem 0rem;">
+      <div class="container">
+        <h1 class="jumbotron-heading" style="padding-top: 2rem;">Welcome to <%=group.groupName%> Group</h1>
+        <p class="lead text-muted"></p>
+        <p style="padding-top: 1rem;">
+          <a class="btn btn-link" href="<%=group.groupName%>/agendaboard">Agenda Board</a>
+          <a class="btn btn-link" href="<%=group.groupName%>/calendar">Calendar</a>
+          <a class="btn btn-link" href="<%=group.groupName%>/list">Lists</a>
+          <a class="btn btn-link" href="<%=group.groupName%>/messenger">Messenger</a>
+          <a class="btn btn-link" href="<%=group.groupName%>/notification">Notifications</a>
+        </p>
+      </div>
+    </section>
+  </main>
 
   <script 
     src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
