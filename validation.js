@@ -16,9 +16,9 @@ const registerValidation = (data) => {
         password: Joi.string()
             .min(6)
             .required(),
-        password2: Joi.string()
-            .min(6)
+        password2: Joi.any().equal(Joi.ref('password')) // confirm password
             .required()
+            .options({ messages: { 'any.only': '{{#label}} does not match'} })
     });
     return schema.validate(data);
 }

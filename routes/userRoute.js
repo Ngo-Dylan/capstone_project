@@ -140,11 +140,11 @@ router.post('/register', async (req, res) => {
     } = registerValidation(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
-    //Checking if the user is already in the db.
-    const usernameExists = await User.findOne({
-        email: req.body.username
+    //Checking if the email is already in the db.
+    const emailExists = await User.findOne({
+        email: req.body.email // changed from username -> email
     });
-    if (usernameExists) return res.status(400).send('username already exists');
+    if (emailExists) return res.status(400).send('email is already registered');
 
     //Hash passwords
     const salt = await bcrypt.genSalt(10);
@@ -228,7 +228,7 @@ router.post('/login', async (req, res) => {
         console.log(user._id);
         res.redirect('/');
     } catch (err) {
-        res.status(400).json({});
+        res.status(400).json('incorrect password'); // error of incorrect password
     }
 });
 

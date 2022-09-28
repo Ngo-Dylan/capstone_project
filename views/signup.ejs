@@ -14,6 +14,9 @@
 	<link 
     rel="stylesheet" 
     href="main.css">
+	<link 
+	rel="stylesheet"
+	href="signup.css">
 </head>
 
 <body class="container">
@@ -74,6 +77,41 @@
 		<button type="submit" class="btn btn-outline-primary">Submit</button>
 		<button type="reset" class="btn btn-default">Reset</button>
 
+		<!-- add indicators of valid password creation -->
+		<div id="message">
+			<h3>Password must contain the following:</h3>
+			<p id="length" class="invalid">Minimum <b>6 characters</b></p>
+			<!-- 
+			<p id="letter" class="invalid">A <b>lowercase</b> letter</p>
+  			<p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>
+  			<p id="number" class="invalid">A <b>number</b></p> -->
+		</div>
+
+		<script>
+		var myInput = document.getElementById("password");
+		// var capital = document.getElementById("capital");
+		// var number = document.getElementById("number");
+		var length = document.getElementById("length");
+
+		// When the user clicks on the password field, show the message box
+		myInput.onfocus = function() {
+  		document.getElementById("message").style.display = "block";}
+
+		// When the user clicks outside of the password field, hide the message box
+		myInput.onblur = function() {
+  		document.getElementById("message").style.display = "none";}
+
+		// Validate length
+		if(myInput.value.length >= 6) {
+   			length.classList.remove("invalid");
+    		length.classList.add("valid");
+  			} 
+		else {
+    		length.classList.remove("valid");
+    		length.classList.add("invalid");
+  		}
+  		</script>
+		
 	</form>
 
 	<footer class="index-footer">
