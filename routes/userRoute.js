@@ -2,6 +2,7 @@ const express = require('express');
 const router = require('express').Router();
 const User = require('../models/User');
 const Group = require('../models/Group');
+const AgendaBoard = require('../models/AgendaBoard');
 const jwt = require('jsonwebtoken');
 const {
     requireAuth
@@ -43,10 +44,24 @@ const {
         groupName: req.params.groupName
     });
     if (!group) return res.status(400).send('Group is not found.');
-    console.log(group)
-    res.render('agendaboard', {
-        group
+
+    const agenda = await AgendaBoard.findOne({
+        group: req.params.groupName 
     });
+    if (!agenda) {
+        const agenda = new AgendaBoard({
+            group: group.groupName
+        });
+        const agendaExists = await agenda.save();
+        console.log(agendaExists);
+        res.render('agendaboard', {
+        group, agenda
+    });
+    }
+    else{
+        res.render('agendaboard', {
+            group, agenda
+        });}
  });
 
  router.get('/group/:groupName/messenger', async (req, res) => {
@@ -122,6 +137,74 @@ router.get('/group/:groupName', async (req, res) => {
     }
 });
 
+//group agenda board
+router.post('/group/:groupName/agendaboard/addelement/:length', async (req, res) => {
+    const token = req.cookies.jwt;
+    const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
+    var userId = decoded.id;
+    const user = await User.findOne({
+        _id: userId
+    });
+    if (!user) return res.status(400).send('User is not found.');
+
+    AgendaBoard.findOneAndUpdate({
+        group: req.params.groupName
+    }, {
+        $push: {
+            row: {id: req.params.length,row: 0},
+            obj: {id: req.params.length, text: req.body.bio},
+            user: {id: req.params.length, user: user.email}
+        }
+    }, {
+        new: true
+    }, (err, doc) => {
+        if (err) {
+            console.log("Something went wrong");
+        }
+        console.log("Added to agendaboard");
+    });
+
+    const url = '/user/group/' + req.params.groupName + '/agendaboard';
+
+    res.redirect(url);
+});
+
+//edit row up
+router.post('/group/:groupName/agendaboard/editrowup/:id', async (req, res) => {
+    const agenda = await AgendaBoard.findOne({
+        group: req.params.groupName
+    });
+    if (!agenda) return res.status(400).send('User is not found.');
+    const rowNum = agenda.row[req.params.id].row + 1;
+    const agenda2 = await AgendaBoard.findOneAndUpdate({
+        group: req.params.groupName, "row.id": req.params.id},
+        {$set: {"row.$.row": rowNum}
+    });
+    const url = '/user/group/' + req.params.groupName + '/agendaboard';
+    res.redirect(url);
+});
+
+//edit row down
+router.post('/group/:groupName/agendaboard/editrowdown/:id', async (req, res) => {
+    const agenda = await AgendaBoard.findOne({
+        group: req.params.groupName
+    });
+    if (!agenda) return res.status(400).send('User is not found.');
+    const rowNum = agenda.row[req.params.id].row - 1;
+    const agenda2 = await AgendaBoard.findOneAndUpdate({
+        group: req.params.groupName, "row.id": req.params.id},
+        {$set: {"row.$.row": rowNum}
+    });
+    const url = '/user/group/' + req.params.groupName + '/agendaboard';
+    res.redirect(url);
+});
+
+//edit row down
+router.get('/group/:groupName/agendaboard/editrowdown/:id', async (req, res) => {
+    console.log(req.params.id);
+    const url = '/user/group/' + req.params.groupName + '/agendaboard';
+    res.redirect(url);
+});
 
 //creating a token used for the user in the current session
 const maxAge = 3 * 24 * 60 * 60;

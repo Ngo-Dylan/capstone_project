@@ -24,7 +24,7 @@
   <main role="main">
     <section class="jumbotron text-center" style="background-color: white; padding: 0rem 0rem;">
       <div class="container">
-        <h1 class="jumbotron-heading" style="padding-top: 2rem;"><%=group.groupName%>'s Agenda Board</h1>
+        <h1 class="jumbotron-heading" style="padding-top: 2rem;"><%=agenda.group%>'s Agenda Board</h1>
         <p class="lead text-muted"></p>
         <p style="padding-top: 1rem;">
           <a class="btn btn-link" href="../<%=group.groupName%>/calendar">Calendar</a>
@@ -53,25 +53,21 @@
           <div class="card-body">
             <div class="tasks" id="backlog" style="min-height: 450px;">
               <!-- Start task -->
-              <div class="card mb-3 cursor-grab">
-                <div class="card-body">
-                  <p class="mb-0">In magna lorem, vulputate eu pulvinar nec, accumsan ut erat.</p>
-                  <div class="d-flex justify-content-around">
-                    <a href="#" class="next" style="font-size: 15pt; text-decoration: none;">&#8250;</a>
+              <% for (var i = 0; i < agenda.row.length; i++) { %>
+                <% if(agenda.row[i].row==0) { %>
+                  <div class="card mb-3 cursor-grab">
+                    <div class="card-body">
+                      <p class="mb-0"><%=agenda.obj[i].text%></p>
+                      <div class="d-flex justify-content-around">
+                      <form action="../<%=group.groupName%>/agendaboard/editrowup/<%=i%>" method="post">
+                        <button type="submit" class="next" style="font-size: 15pt; text-decoration: none;">-></button>
+                      </form>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <!-- End task -->
-              <!-- Start task -->
-              <div class="card mb-3 cursor-grab">
-                <div class="card-body">
-                  <p class="mb-0">Aenean egestas lobortis posuere.</p>
-                  <div class="d-flex justify-content-around">
-                    <a href="#" class="next" style="font-size: 15pt; text-decoration: none;">&#8250;</a>
-                  </div>
-                </div>
-              </div>
-              <!-- End task -->
+                <% } %>
+              <% } %>
+                <!-- End task -->
             </div>
             <!-- Add Task -->
             <div class="container">
@@ -88,11 +84,11 @@
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
-                  <form>
+                  <form action="../<%=group.groupName%>/agendaboard/addelement/<%=agenda.row.length%>" method="post">
                     <div class="modal-body">
                       <div class="form-group">
                         <label for="bio">Task Description</label>
-                        <textarea class="form-control" type="text" name="bio" id="bio" rows="5" value="" placeholder="Start writing your task here..." required></textarea>
+                        <textarea class="form-control" type="text" name="bio" id="bio" rows="5" value="bio" placeholder="Start writing your task here..." required></textarea>
                       </div>
                     </div>
                     <div class="modal-footer border-top-0 d-flex justify-content-center">
@@ -121,26 +117,23 @@
           <div class="card-body">
             <div class="tasks" id="progress" style="min-height: 450px;">
               <!-- Start task -->
-              <div class="card mb-3 cursor-grab">
-                <div class="card-body">
-                  <p class="mb-0">Nam id sem non sem molestie efficitur nec non sem. Sed gravida viverra sem in vehicula.</p>
-                  <div class="d-flex justify-content-around">
-                    <a href="#" class="previous" style="font-size: 15pt; text-decoration: none;">&#8249;</a>
-                    <a href="#" class="next" style="font-size: 15pt; text-decoration: none;">&#8250;</a>
+              <% for (var i = 0; i < agenda.row.length; i++) { %>
+                <% if(agenda.row[i].row==1) { %>
+                  <div class="card mb-3 cursor-grab">
+                    <div class="card-body">
+                      <p class="mb-0"><%=agenda.obj[i].text%></p>
+                      <div class="d-flex justify-content-around">
+                      <form action="../<%=group.groupName%>/agendaboard/editrowdown/<%=i%>" method="post">
+                        <button type="submit" class="previous" style="font-size: 15pt; text-decoration: none;"><-</button>
+                      </form>
+                      <form action="../<%=group.groupName%>/agendaboard/editrowup/<%=i%>" method="post">
+                        <button type="submit" class="next" style="font-size: 15pt; text-decoration: none;">-></button>
+                      </form>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <!-- End task -->
-              <!-- Start task -->
-              <div class="card mb-3 cursor-grab">
-                <div class="card-body">
-                  <p class="mb-0">Phasellus molestie dui urna, at tempus dui ornare non.</p>
-                  <div class="d-flex justify-content-around">
-                    <a href="#" class="previous" style="font-size: 15pt; text-decoration: none;">&#8249;</a>
-                    <a href="#" class="next" style="font-size: 15pt; text-decoration: none;">&#8250;</a>
-                  </div>
-                </div>
-              </div>
+                <% } %>
+              <% } %>
               <!-- End task -->
             </div>
           </div>
@@ -162,25 +155,21 @@
           <div class="card-body">
             <div class="tasks" id="completed" style="min-height: 450px;">
               <!-- Start task -->
-              <div class="card mb-3 cursor-grab">
-                <div class="card-body">
-                  <p class="mb-0">Phasellus aliquet lacinia sem, ut lacinia est varius et.</p>
-                  <div class="d-flex justify-content-around">
-                    <a href="#" class="previous" style="font-size: 15pt; text-decoration: none;">&#8249;</a>
+              <% for (var i = 0; i < agenda.row.length; i++) { %>
+                <% if(agenda.row[i].row==2) { %>
+                  <div class="card mb-3 cursor-grab">
+                    <div class="card-body">
+                      <p class="mb-0"><%=agenda.obj[i].text%></p>
+                      <div class="d-flex justify-content-around">
+                        <form action="../<%=group.groupName%>/agendaboard/editrowdown/<%=i%>" method="post">
+                          <button type="submit" class="previous" style="font-size: 15pt; text-decoration: none;"><-</button>
+                        </form>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <!-- End task -->
-              <!-- Start task -->
-              <div class="card mb-3 cursor-grab">
-                <div class="card-body">
-                  <p class="mb-0">Maecenas leo ante, facilisis vitae sollicitudin id, interdum a magna.</p>
-                  <div class="d-flex justify-content-around">
-                    <a href="#" class="previous" style="font-size: 15pt; text-decoration: none;">&#8249;</a>
-                  </div>
-                </div>
-              </div>
-              <!-- End task -->
+                <% } %>
+              <% } %>
+                <!-- End task -->
             </div>
           </div>
         </div>
@@ -199,6 +188,10 @@
         document.querySelector('#progress'),
         document.querySelector('#completed')
     ]);
+
+    function printHi(){
+      console.log(hello);
+    }
   </script>
 
 </body>
