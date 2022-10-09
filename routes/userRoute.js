@@ -14,7 +14,8 @@ const {
     registerValidation,
     groupValidation,
     loginValidation,
-    deleteValidation
+    deleteValidation,
+    groupLeave
 } = require('../validation');
 
  router.get('/group/:groupName/notification', async (req, res) => {
@@ -377,6 +378,7 @@ router.post('/add', requireAuth, async (req, res) => {
     const group = await Group.findOne({
         groupName: req.body.groupName
     });
+    if(!group) return res.status(400).send('That group does not exist');
 
     const user = await User.findOne({
         _id: userId
@@ -414,6 +416,55 @@ router.post('/add', requireAuth, async (req, res) => {
         console.log("Added to group");
     });
     res.redirect('/');
+});
+
+//Leave Group
+router.post('/group/:groupName/leave', requireAuth, async (req, res) => {
+    const {
+        error
+    } = groupValidation(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
+
+    // Remove User from Group's database
+    const group = await Group.findOne({
+        groupName: req.params.groupName
+    });
+    if (!group) return res.status(400).send('Group is not found.');
+    console.log(group);
+    User.findOneAndRemove({
+        groupName: req.body.groupName
+    }, function (err) {
+        if (!err){
+            console.log(groupName + " left");
+        }
+        else{
+            res.status(400).send('Error');
+        }
+    });
+
+    // Remove Group from User's database
+    User.findOneAndUpdate({
+        _id: userId
+    }, {
+        $pull: {
+            groups: group.groupName
+        }
+    }, {
+        new: true
+    }, (err, doc) => {
+        if (err) {
+            console.log("Something went wrong");
+        }
+        console.log("Removed from group");
+    });
+
+    // save
+    try {
+        const savedGroup = await group.save();
+        res.redirect('/');
+    } catch (err) {
+        res.status(400).send(err);
+    }
 });
 
 //Log out

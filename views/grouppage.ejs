@@ -53,6 +53,15 @@
             </ul>
           </div>
         </p>
+        
+        <!-- delete is only for the group creator -->
+        <p style = "padding-top: 2rem;">
+          <div class = "padding-left: 50px;">
+            <a class="btn btn-outline-danger" href="<%=group.groupName%>/delete" hidden="hidden">Delete Group"</a>
+            <a class="btn btn-outline-danger" href="<%=group.groupName%>/leave">Leave Group</a>
+          </div>
+        </p>
+
       </section>
     </section>
   </main>
