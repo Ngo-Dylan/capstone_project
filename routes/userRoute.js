@@ -3,6 +3,7 @@ const router = require('express').Router();
 const User = require('../models/User');
 const Group = require('../models/Group');
 const AgendaBoard = require('../models/AgendaBoard');
+const List = require('../models/List');
 const jwt = require('jsonwebtoken');
 const {
     requireAuth
@@ -33,11 +34,110 @@ const {
         groupName: req.params.groupName
     });
     if (!group) return res.status(400).send('Group is not found.');
-    console.log(group)
-    res.render('list', {
-        group
+
+    const list = await List.findOne({
+        group: req.params.groupName
     });
+    if (!list) {
+        const list = new List({
+            group: group.groupName
+        });
+        const listExists = await list.save();
+        console.log(listExists);
+        res.render('list2', {
+        group, list
+    });
+    }
+    else{
+        res.render('list2', {
+            group, list
+        });}
  });
+
+ router.post('/group/:groupName/list/addelement/:length', async (req, res) => {
+    const token = req.cookies.jwt;
+    const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
+    var userId = decoded.id;
+    const user = await User.findOne({
+        _id: userId
+    });
+    if (!user) return res.status(400).send('User is not found.');
+
+    List.findOneAndUpdate({
+        group: req.params.groupName
+    }, {
+        $push: {
+            title: {id: req.params.length,text: req.body.title},
+            desc: {id: req.params.length, text: req.body.description},
+            user: {id: req.params.length, user: user.email}
+        }
+    }, {
+        new: true
+    }, (err, doc) => {
+        if (err) {
+            console.log("Something went wrong");
+        }
+        console.log("Added to list");
+    });
+
+    const url = '/user/group/' + req.params.groupName + '/list';
+
+    res.redirect(url);
+});
+
+router.get('/group/:groupName/list/editelement/:length', async (req, res) => {
+    const group = await Group.findOne({
+        groupName: req.params.groupName
+    });
+    if (!group) return res.status(400).send('Group is not found.');
+
+    const id = req.params.length;
+
+    const list = await List.findOne({
+        group: req.params.groupName
+    });
+    if (!list) {
+        const list = new List({
+            group: group.groupName
+        });
+        const listExists = await list.save();
+        console.log(listExists);
+        res.render('editList', {
+        group, list, id
+    });
+    }
+    else{
+        res.render('editList', {
+            group, list, id
+        });}
+ });
+
+router.post('/group/:groupName/list/editelement/:id', async (req, res) => {
+    const token = req.cookies.jwt;
+    const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
+    var userId = decoded.id;
+    const user = await User.findOne({
+        _id: userId
+    });
+    if (!user) return res.status(400).send('User is not found.');
+
+    if (req.body.title) {
+        const list = await List.findOneAndUpdate({
+            group: req.params.groupName, "title.id": req.params.id},
+            {$set: {"title.$.text": req.body.title}
+        });
+    }
+    if (req.body.desc) {
+        const list2 = await List.findOneAndUpdate({
+            group: req.params.groupName, "desc.id": req.params.id},
+            {$set: {"desc.$.text": req.body.desc}
+        });
+    }
+
+    const url = '/user/group/' + req.params.groupName + '/list';
+
+    res.redirect(url);
+});
 
  router.get('/group/:groupName/agendaboard', async (req, res) => {
     const group = await Group.findOne({
