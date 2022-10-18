@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link 
+      rel="stylesheet" 
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" 
+      crossorigin="anonymous">
+    <link rel="stylesheet" href="/assets/css/calendar.css"> 
+    <title>Group Page</title>
+  </head>
+
+  <body>
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+      <h5>Calendar for <%=group.groupName%></h5>
+      <a class="btn btn-outline-primary" href="/user/group/<%=group.groupName%>">grouppage</a>
+    </div>
+    
+    <div class="calendar">
+      <div class="calendar-header">
+        <span class="month-picker" id="month-picker">
+          October
+        </span>
+        <div class="year-picker">
+          <span class="year-change" id="prev-year">
+            <prev><</prev>
+          </span>
+          <span id="year">2022</span>
+          <span class="year-change" id="next-year">
+            <prev>></prev>
+          </span>
+
+
+        </div>
+      </div>
+      <div class="calendar-body">
+        <div class="calendar-week-day">
+          <div>Sun</div>
+          <div>Mon</div>
+          <div>Tue</div>
+          <div>Wed</div>
+          <div>Thu</div>
+          <div>Fri</div>
+          <div>Sat</div>
+        </div>
+        <div class="calendar-days">
+          <div>
+            1
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <div>2</div>
+          <div>3</div>
+          <div>4</div>
+          <div>5</div>
+          <div>6</div>
+          <div>7</div>
+          <div>1</div>
+          <div>2</div>
+          <div>3</div>
+          <div>4</div>
+          <div>5</div>
+          <div>6</div>
+          <div>7</div>
+        </div>
+      </div>
+
+      <div class="calendar-footer">
+        <div class="toggle">
+          <span>Dark Mode</span>
+          <div class="dark-mode-switch">
+            <div class="dark-mode-switch-ident"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="month-list"></div>
+    </div>
+  </body>
+
+  <script>
+    //dark mode toggle
+    document.querySelector('.dark-mode-switch').onclick = () => {
+      document.querySelector('body').classList.toggle('dark')
+      document.querySelector('body').classList.toggle('light')
+    }
+
+    // check leap year
+    isLeapYear = (year) => {
+      return (year % 4 == 0 && year % 100 != 0 && year % 400 != 0) || (year % 100 == 0 && year % 400 == 0)
+    }
+
+    getFebDays = (year) => {
+      return isLeapYear(year) ? 29 : 28
+    }
+
+    let calendar = document.querySelector('.calendar')
+
+    const month_names = ['January', 'February', 'March', 'April', 'May', 'June',
+                         'July', 'August', 'September', 'October', 'November', 'December']
+    let month_picker = document.querySelector('#month-picker')
+
+    month_picker.onclick = () => {
+      month_list.classList.add('show')
+    }
+
+    //generate calendar
+    generateCalendar = (month, year) => {
+      let calendar_days = document.querySelector('.calendar-days')
+      calendar_days.innerHTML = ''
+
+      let calendar_header_year = document.querySelector('#year')
+      let days_of_month = [31, getFebDays(year), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+      let currDate = new Date()
+
+      month_picker.innerHTML = month_names[month]
+      calendar_header_year.innerHTML = year
+
+      let first_day = new Date(month, year, 1)
+
+      for (let i = 0; i <= days_of_month[month] + first_day.getDay() - 1; i++) {
+        let day = document.createElement('div')
+
+        if (i >= first_day.getDay()) {
+          day.classList.add('calendar-day-hover')
+          day.innerHTML = i - first_day.getDay() + 1
+          day.innerHTML += `<span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>`
+
+          if (i - first_day.getDay() + 1 === currDate.getDate() && year === currDate.getFullYear()
+              && month === currDate.getMonth()) {
+                day.classList.add('curr-date')
+          }
+        }
+        calendar_days.appendChild(day)
+      }
+    }
+
+    let month_list = calendar.querySelector('.month-list')
+    month_names.forEach((e, index) => {
+      let month = document.createElement('div')
+      month.innerHTML = `<div>${e}</div>`
+      month.onclick = () => {
+        month_list.classList.remove('show')
+        curr_month.value = index
+        generateCalendar(curr_month.value, curr_year.value)
+      }
+      month_list.appendChild(month)
+    })
+
+    document.querySelector('#prev-year').onclick = () => {
+      --curr_year.value
+      generateCalendar(curr_month.value, curr_year.value)
+    }
+
+    document.querySelector('#next-year').onclick = () => {
+      ++curr_year.value
+      generateCalendar(curr_month.value, curr_year.value)
+    }
+    
+    
+    let currDate = new Date()
+    let curr_month = {value: currDate.getMonth()}
+    let curr_year = {value: currDate.getFullYear()}
+
+    generateCalendar(curr_month.value, curr_year.value)
+  </script>
+
+  <!-- <script 
+  src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+  integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" 
+  crossorigin="anonymous">
+  </script>
+  <script 
+  src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+  integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" 
+  crossorigin="anonymous">
+  </script>
+  <script 
+  src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+  integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" 
+  crossorigin="anonymous">
+  </script> -->
+</html>
