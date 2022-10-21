@@ -15,162 +15,184 @@
   </head>
 
   <body>
-    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
-      <h5>Calendar for <%=group.groupName%></h5>
-      <a class="btn btn-outline-primary" href="/user/group/<%=group.groupName%>">grouppage</a>
+    <div id="container">
+      <div id="header">
+        <div id="monthDisplay"></div>
+        <div>
+          <button id="backButton">Back</button>
+          <button id="nextButton">Next</button>
+        </div>
+      </div>
+
+      <div id="weekdays">
+        <div>Sunday</div>
+        <div>Monday</div>
+        <div>Tuesday</div>
+        <div>Wednesday</div>
+        <div>Thursday</div>
+        <div>Friday</div>
+        <div>Saturday</div>
+      </div>
+
+      <div id="calendar"></div>
     </div>
-    
-    <div class="calendar">
-      <div class="calendar-header">
-        <span class="month-picker" id="month-picker">
-          October
-        </span>
-        <div class="year-picker">
-          <span class="year-change" id="prev-year">
-            <prev><</prev>
-          </span>
-          <span id="year">2022</span>
-          <span class="year-change" id="next-year">
-            <prev>></prev>
-          </span>
 
+    <div id="newEventModal">
+      <h2>New Event</h2>
 
-        </div>
-      </div>
-      <div class="calendar-body">
-        <div class="calendar-week-day">
-          <div>Sun</div>
-          <div>Mon</div>
-          <div>Tue</div>
-          <div>Wed</div>
-          <div>Thu</div>
-          <div>Fri</div>
-          <div>Sat</div>
-        </div>
-        <div class="calendar-days">
-          <div>
-            1
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-          <div>2</div>
-          <div>3</div>
-          <div>4</div>
-          <div>5</div>
-          <div>6</div>
-          <div>7</div>
-          <div>1</div>
-          <div>2</div>
-          <div>3</div>
-          <div>4</div>
-          <div>5</div>
-          <div>6</div>
-          <div>7</div>
-        </div>
-      </div>
+      <input id="eventTitleInput" placeholder="Event Title" />
 
-      <div class="calendar-footer">
-        <div class="toggle">
-          <span>Dark Mode</span>
-          <div class="dark-mode-switch">
-            <div class="dark-mode-switch-ident"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="month-list"></div>
+      <button id="saveButton">Save</button>
+      <button id="cancelButton">Cancel</button>
     </div>
+
+    <div id="deleteEventModal">
+      <h2>Event</h2>
+
+      <p id="eventText"></p>
+
+      <button id="deleteButton">Delete</button>
+      <button id="closeButton">Close</button>
+    </div>
+
+    <div id="modalBackDrop"></div>
   </body>
 
   <script>
-    //dark mode toggle
-    document.querySelector('.dark-mode-switch').onclick = () => {
-      document.querySelector('body').classList.toggle('dark')
-      document.querySelector('body').classList.toggle('light')
+    let nav = 0;
+    let clicked = null;
+    let events = localStorage.getItem('events') ? JSON.parse(localStorage.getItem('events')) : [];
+
+    const calendar = document.getElementById('calendar');
+    const newEventModal = document.getElementById('newEventModal');
+    const deleteEventModal = document.getElementById('deleteEventModal');
+    const backDrop = document.getElementById('modalBackDrop');
+    const eventTitleInput = document.getElementById('eventTitleInput');
+    const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+    function openModal(date) {
+    clicked = date;
+
+    const eventForDay = events.find(e => e.date === clicked);
+
+    if (eventForDay) {
+        document.getElementById('eventText').innerText = eventForDay.title;
+        deleteEventModal.style.display = 'block';
+    } else {
+        newEventModal.style.display = 'block';
     }
 
-    // check leap year
-    isLeapYear = (year) => {
-      return (year % 4 == 0 && year % 100 != 0 && year % 400 != 0) || (year % 100 == 0 && year % 400 == 0)
+    backDrop.style.display = 'block';
     }
 
-    getFebDays = (year) => {
-      return isLeapYear(year) ? 29 : 28
+    function load() {
+    const dt = new Date();
+
+    if (nav !== 0) {
+        dt.setMonth(new Date().getMonth() + nav);
     }
 
-    let calendar = document.querySelector('.calendar')
+    const day = dt.getDate();
+    const month = dt.getMonth();
+    const year = dt.getFullYear();
 
-    const month_names = ['January', 'February', 'March', 'April', 'May', 'June',
-                         'July', 'August', 'September', 'October', 'November', 'December']
-    let month_picker = document.querySelector('#month-picker')
+    const firstDayOfMonth = new Date(year, month, 1);
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    
+    const dateString = firstDayOfMonth.toLocaleDateString('en-us', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+    });
+    const paddingDays = weekdays.indexOf(dateString.split(', ')[0]);
 
-    month_picker.onclick = () => {
-      month_list.classList.add('show')
-    }
+    document.getElementById('monthDisplay').innerText = 
+        `${dt.toLocaleDateString('en-us', { month: 'long' })} ${year}`;
 
-    //generate calendar
-    generateCalendar = (month, year) => {
-      let calendar_days = document.querySelector('.calendar-days')
-      calendar_days.innerHTML = ''
+    calendar.innerHTML = '';
 
-      let calendar_header_year = document.querySelector('#year')
-      let days_of_month = [31, getFebDays(year), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-      let currDate = new Date()
+    for(let i = 1; i <= paddingDays + daysInMonth; i++) {
+        const daySquare = document.createElement('div');
+        daySquare.classList.add('day');
 
-      month_picker.innerHTML = month_names[month]
-      calendar_header_year.innerHTML = year
+        const dayString = `${month + 1}/${i - paddingDays}/${year}`;
 
-      let first_day = new Date(month, year, 1)
+        if (i > paddingDays) {
+        daySquare.innerText = i - paddingDays;
+        const eventForDay = events.find(e => e.date === dayString);
 
-      for (let i = 0; i <= days_of_month[month] + first_day.getDay() - 1; i++) {
-        let day = document.createElement('div')
-
-        if (i >= first_day.getDay()) {
-          day.classList.add('calendar-day-hover')
-          day.innerHTML = i - first_day.getDay() + 1
-          day.innerHTML += `<span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>`
-
-          if (i - first_day.getDay() + 1 === currDate.getDate() && year === currDate.getFullYear()
-              && month === currDate.getMonth()) {
-                day.classList.add('curr-date')
-          }
+        if (i - paddingDays === day && nav === 0) {
+            daySquare.id = 'currentDay';
         }
-        calendar_days.appendChild(day)
-      }
+
+        if (eventForDay) {
+            const eventDiv = document.createElement('div');
+            eventDiv.classList.add('event');
+            eventDiv.innerText = eventForDay.title;
+            daySquare.appendChild(eventDiv);
+        }
+
+        daySquare.addEventListener('click', () => openModal(dayString));
+        } else {
+        daySquare.classList.add('padding');
+        }
+
+        calendar.appendChild(daySquare);    
+    }
     }
 
-    let month_list = calendar.querySelector('.month-list')
-    month_names.forEach((e, index) => {
-      let month = document.createElement('div')
-      month.innerHTML = `<div>${e}</div>`
-      month.onclick = () => {
-        month_list.classList.remove('show')
-        curr_month.value = index
-        generateCalendar(curr_month.value, curr_year.value)
-      }
-      month_list.appendChild(month)
-    })
-
-    document.querySelector('#prev-year').onclick = () => {
-      --curr_year.value
-      generateCalendar(curr_month.value, curr_year.value)
+    function closeModal() {
+    eventTitleInput.classList.remove('error');
+    newEventModal.style.display = 'none';
+    deleteEventModal.style.display = 'none';
+    backDrop.style.display = 'none';
+    eventTitleInput.value = '';
+    clicked = null;
+    load();
     }
 
-    document.querySelector('#next-year').onclick = () => {
-      ++curr_year.value
-      generateCalendar(curr_month.value, curr_year.value)
-    }
-    
-    
-    let currDate = new Date()
-    let curr_month = {value: currDate.getMonth()}
-    let curr_year = {value: currDate.getFullYear()}
+    function saveEvent() {
+    if (eventTitleInput.value) {
+        eventTitleInput.classList.remove('error');
 
-    generateCalendar(curr_month.value, curr_year.value)
+        events.push({
+        date: clicked,
+        title: eventTitleInput.value,
+        });
+
+        localStorage.setItem('events', JSON.stringify(events));
+        closeModal();
+    } else {
+        eventTitleInput.classList.add('error');
+    }
+    }
+
+    function deleteEvent() {
+    events = events.filter(e => e.date !== clicked);
+    localStorage.setItem('events', JSON.stringify(events));
+    closeModal();
+    }
+
+    function initButtons() {
+    document.getElementById('nextButton').addEventListener('click', () => {
+        nav++;
+        load();
+    });
+
+    document.getElementById('backButton').addEventListener('click', () => {
+        nav--;
+        load();
+    });
+
+    document.getElementById('saveButton').addEventListener('click', saveEvent);
+    document.getElementById('cancelButton').addEventListener('click', closeModal);
+    document.getElementById('deleteButton').addEventListener('click', deleteEvent);
+    document.getElementById('closeButton').addEventListener('click', closeModal);
+    }
+
+    initButtons();
+    load();
   </script>
 
   <!-- <script 
