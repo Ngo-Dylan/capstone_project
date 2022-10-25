@@ -57,10 +57,32 @@
                 <% if(agenda.row[i].row==0) { %>
                   <div class="card mb-3">
                     <div class="card-body">
+                      <% if(agenda.priority[i].priority=="select") { %>
+                        
+                        <% } %>
+                        
+                        <% if(agenda.priority[i].priority=="high") { %>
+                            <span class="badge badge-pill badge-danger text-white mb-2">High</span>
+                        <% } %>
+                        
+                        <% if(agenda.priority[i].priority=="medium") { %>
+                            <span class="badge badge-pill badge-warning text-white mb-2">Medium</span>
+                        <% } %>
+                        
+                        <% if(agenda.priority[i].priority=="low") { %>
+                            <span class="badge badge-pill badge-success text-white mb-2">Low</span>
+                        <% } %>
+                        
+                        <% if(agenda.priority[i].priority=="onhold") { %>
+                            <span class="badge badge-pill badge-info text-white mb-2">On hold</span>
+                        <% } %>
                       <p class="mb-0"><%=agenda.obj[i].text%></p>
                       <div class="d-flex justify-content-around" style="max-height: 1.5rem;">
+                        <form action="../<%=group.groupName%>/agendaboard/delete/<%=i%>" method="post">
+                          <button type="submit" class="btn btn-link" style="font-size: 15pt; text-decoration: none;" title="Delete">&#8999;</button>
+                        </form>
                         <form action="../<%=group.groupName%>/agendaboard/editrowup/<%=i%>" method="post">
-                          <button type="submit" class="btn btn-link" style="font-size: 15pt; text-decoration: none;" title="Move right">&#8250;</button>
+                          <button type="submit" class="btn btn-link" style="font-size: 15pt; text-decoration: none;" title="Move right">&#9654;</button>
                         </form>
                       </div>
                     </div>
@@ -86,6 +108,16 @@
                   </div>
                   <form action="../<%=group.groupName%>/agendaboard/addelement/<%=agenda.row.length%>" method="post">
                     <div class="modal-body">
+                      <div class="form-group">
+                        <label for="prioritylevel">Priority level</label>
+                        <select class="custom-select" name="priority">
+                          <option selected value="select">select</option>
+                          <option value="high">High</option>
+                          <option value="medium">Medium</option>
+                          <option value="low">Low</option>
+                          <option value="onhold">On Hold</option>
+                        </select>
+                      </div>
                       <div class="form-group">
                         <label for="bio">Task Description</label>
                         <textarea class="form-control" type="text" name="bio" id="bio" rows="5" value="bio" placeholder="Start writing your task here..." required></textarea>
@@ -121,13 +153,35 @@
                 <% if(agenda.row[i].row==1) { %>
                   <div class="card mb-3">
                     <div class="card-body">
+                      <% if(agenda.priority[i].priority=="select") { %>
+                        
+                        <% } %>
+                        
+                        <% if(agenda.priority[i].priority=="high") { %>
+                            <span class="badge badge-pill badge-danger text-white mb-2">High</span>
+                        <% } %>
+                        
+                        <% if(agenda.priority[i].priority=="medium") { %>
+                            <span class="badge badge-pill badge-warning text-white mb-2">Medium</span>
+                        <% } %>
+                        
+                        <% if(agenda.priority[i].priority=="low") { %>
+                            <span class="badge badge-pill badge-success text-white mb-2">Low</span>
+                        <% } %>
+                        
+                        <% if(agenda.priority[i].priority=="onhold") { %>
+                            <span class="badge badge-pill badge-info text-white mb-2">On hold</span>
+                        <% } %>
                       <p class="mb-0"><%=agenda.obj[i].text%></p>
                       <div class="d-flex justify-content-around" style="max-height: 1.5rem;">
                         <form action="../<%=group.groupName%>/agendaboard/editrowdown/<%=i%>" method="post">
-                          <button type="submit" class="btn btn-link" style="font-size: 15pt; text-decoration: none;" title="Move left">&#8249;</button>
+                          <button type="submit" class="btn btn-link" style="font-size: 15pt; text-decoration: none;" title="Move left">&#9664;</button>
+                        </form>
+                        <form action="../<%=group.groupName%>/agendaboard/delete/<%=i%>" method="post">
+                          <button type="submit" class="btn btn-link" style="font-size: 15pt; text-decoration: none;" title="Delete">&#8999;</button>
                         </form>
                         <form action="../<%=group.groupName%>/agendaboard/editrowup/<%=i%>" method="post">
-                          <button type="submit" class="btn btn-link" style="font-size: 15pt; text-decoration: none;" title="Move right">&#8250;</button>
+                          <button type="submit" class="btn btn-link" style="font-size: 15pt; text-decoration: none;" title="Move right">&#9654;</button>
                         </form>
                       </div>
                     </div>
@@ -159,10 +213,32 @@
                 <% if(agenda.row[i].row==2) { %>
                   <div class="card mb-3">
                     <div class="card-body">
+                      <% if(agenda.priority[i].priority=="select") { %>
+                        
+                        <% } %>
+                        
+                        <% if(agenda.priority[i].priority=="high") { %>
+                            <span class="badge badge-pill badge-danger text-white mb-2">High</span>
+                        <% } %>
+                        
+                        <% if(agenda.priority[i].priority=="medium") { %>
+                            <span class="badge badge-pill badge-warning text-white mb-2">Medium</span>
+                        <% } %>
+                        
+                        <% if(agenda.priority[i].priority=="low") { %>
+                            <span class="badge badge-pill badge-success text-white mb-2">Low</span>
+                        <% } %>
+                        
+                        <% if(agenda.priority[i].priority=="onhold") { %>
+                            <span class="badge badge-pill badge-info text-white mb-2">On hold</span>
+                        <% } %>
                       <p class="mb-0"><%=agenda.obj[i].text%></p>
                       <div class="d-flex justify-content-around" style="max-height: 1.5rem;">
                         <form action="../<%=group.groupName%>/agendaboard/editrowdown/<%=i%>" method="post">
-                          <button type="submit" class="btn btn-link" style="font-size: 15pt; text-decoration: none;" title="Move left">&#8249;</button>
+                          <button type="submit" class="btn btn-link" style="font-size: 15pt; text-decoration: none;" title="Move left">&#9664;</button>
+                        </form>
+                        <form action="../<%=group.groupName%>/agendaboard/delete/<%=i%>" method="post">
+                          <button type="submit" class="btn btn-link" style="font-size: 15pt; text-decoration: none;" title="Delete">&#8999;</button>
                         </form>
                       </div>
                     </div>

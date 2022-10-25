@@ -15,6 +15,9 @@ const agendaBoardSchema = new mongoose.Schema({
     },
     user: {
         type: [{id: Number, user: String}]
+    },
+    priority: {
+        type: [{id: Number, priority: String}]
     }
 });
 
