@@ -147,7 +147,8 @@ router.post('/group/:groupName/list/editelement/:id', async (req, res) => {
 
     const agenda = await AgendaBoard.findOne({
         group: req.params.groupName 
-    });
+    });   
+
     if (!agenda) {
         const agenda = new AgendaBoard({
             group: group.groupName
@@ -246,14 +247,14 @@ router.post('/group/:groupName/agendaboard/addelement/:length', async (req, res)
         _id: userId
     });
     if (!user) return res.status(400).send('User is not found.');
-
     AgendaBoard.findOneAndUpdate({
         group: req.params.groupName
     }, {
         $push: {
             row: {id: req.params.length,row: 0},
             obj: {id: req.params.length, text: req.body.bio},
-            user: {id: req.params.length, user: user.email}
+            user: {id: req.params.length, user: user.email},
+            priority: {id: req.params.length, priority: req.body.priority}
         }
     }, {
         new: true
@@ -289,6 +290,7 @@ router.post('/group/:groupName/agendaboard/editrowdown/:id', async (req, res) =>
     const agenda = await AgendaBoard.findOne({
         group: req.params.groupName
     });
+    console.log(req.params.id)
     if (!agenda) return res.status(400).send('User is not found.');
     const rowNum = agenda.row[req.params.id].row - 1;
     const agenda2 = await AgendaBoard.findOneAndUpdate({
@@ -299,9 +301,44 @@ router.post('/group/:groupName/agendaboard/editrowdown/:id', async (req, res) =>
     res.redirect(url);
 });
 
-//edit row down
-router.get('/group/:groupName/agendaboard/editrowdown/:id', async (req, res) => {
-    console.log(req.params.id);
+//delete an element
+router.post('/group/:groupName/agendaboard/delete/:id', async (req, res) => {
+    const agenda = await AgendaBoard.findOne({
+        group: req.params.groupName
+    });
+
+    var agendaRow = agenda.row;
+    var agendaObj = agenda.obj;
+    var agendaUser = agenda.user;
+    var agendaPriority = agenda.priority;
+    agendaRow.splice(req.params.id, 1);
+    agendaObj.splice(req.params.id, 1);
+    agendaUser.splice(req.params.id, 1);
+    agendaPriority.splice(req.params.id, 1);
+    
+    for (let i = req.params.id; i<agendaRow.length; i++){
+        agendaRow[i].id--
+    }
+    for (let i = req.params.id; i<agendaRow.length; i++){
+        agendaObj[i].id--
+    }
+    for (let i = req.params.id; i<agendaRow.length; i++){
+        agendaUser[i].id--
+    }
+    for (let i = req.params.id; i<agendaRow.length; i++){
+        agendaPriority[i].id--
+    }
+
+    const agenda2 = await AgendaBoard.findOneAndUpdate({
+        group: req.params.groupName},
+        {$set: {
+            row: agendaRow,
+            obj: agendaObj, 
+            user: agendaUser,
+            priority: agendaPriority
+        }
+    });
+
     const url = '/user/group/' + req.params.groupName + '/agendaboard';
     res.redirect(url);
 });
