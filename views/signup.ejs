@@ -42,6 +42,27 @@
       </strong>
     </p>
 
+	<section>
+		<div class="form-group">
+			<label for="Fname">First Name </label>
+			<strong>
+	  <abbr title="required">
+		<span style="color: red">*</span>
+				</abbr>
+	</strong>
+			<input class="form-control" type="text" id="firstName" name="firstName" required>
+		</div>
+		
+		<div class="form-group">
+			<label for="Lname">Last Name </label>
+			<strong>
+	  <abbr title="required">
+		<span style="color: red">*</span>
+				</abbr>
+	</strong>
+			<input class="form-control" type="text" id="lastName" name="lastName" required>
+		</div>
+
 		<section>
 			<div class="form-group">
 				<label for="mail">E-mail </label>
@@ -89,9 +110,9 @@
 
 		<script>
 		var myInput = document.getElementById("password");
+		var length = document.getElementById("length");
 		// var capital = document.getElementById("capital");
 		// var number = document.getElementById("number");
-		var length = document.getElementById("length");
 
 		// When the user clicks on the password field, show the message box
 		myInput.onfocus = function() {
@@ -101,15 +122,18 @@
 		myInput.onblur = function() {
   		document.getElementById("message").style.display = "none";}
 
-		// Validate length
-		if(myInput.value.length >= 6) {
+		// Validate on every key release inside password
+		myInput.onkeyup = function() {
+		if(myInput.value.length >= 6) 
+		{
    			length.classList.remove("invalid");
     		length.classList.add("valid");
-  			} 
-		else {
+  		} 
+		else 
+		{
     		length.classList.remove("valid");
     		length.classList.add("invalid");
-  		}
+  		} }
   		</script>
 		
 	</form>

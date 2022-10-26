@@ -42,7 +42,8 @@
           <p style="padding-top: 2rem;">
             <% if (user.groups.length) { %>
               <a class="btn btn-outline-primary" href="user/create">Create Group</a>
-              <a class="btn btn-outline-primary" href="user/add">Join a Group</a>  
+              <a class="btn btn-outline-primary" href="user/add">Join a Group</a>
+              <a class="btn btn-outline-danger" href="user/delete">Delete Account</a>    
             <%} else { %>
               <div class="d-flex justify-content-around">
                 <div class="card" style="width: 18rem;">
@@ -52,6 +53,7 @@
                     <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ultrices tristique ligula id maximus.</p>
                     <a href="user/create" class="card-link">Create Group</a>
                     <a href="user/add" class="card-link">Join a Group</a>
+                    <a href="user/delete" class="card-link">Delete Account</a>
                   </div>
                 </div>
               </div>

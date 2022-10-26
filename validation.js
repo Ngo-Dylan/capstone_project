@@ -9,12 +9,22 @@ const registerValidation = (data) => {
             .min(4),
         bio: Joi.string()
             .min(10),
+        firstName: Joi.string()
+            .min(1)
+            .max(100)
+            .required(),
+        lastName: Joi.string()
+            .min(1)
+            .max(100)
+            .required(),
         email: Joi.string()
             .min(6)
+            .max(200)
             .required()
             .email(),
         password: Joi.string()
             .min(6)
+            .max(1024)
             .required(),
         password2: Joi.any().equal(Joi.ref('password')) // confirm password
             .required()
@@ -59,8 +69,19 @@ const deleteValidation = (data) => {
     return schema.validate(data);
 }
 
+// Leave Group
+const groupLeave = (data) => {
+    const schema = Joi.object({
+        groupName: Joi.string()
+            .min(6)
+            .required()
+    });
+    return schema.validate(data);
+}
+
 
 module.exports.registerValidation = registerValidation;
 module.exports.groupValidation = groupValidation;
 module.exports.loginValidation = loginValidation;
 module.exports.deleteValidation = deleteValidation;
+module.exports.groupLeave = groupLeave;
