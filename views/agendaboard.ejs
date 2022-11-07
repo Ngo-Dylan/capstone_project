@@ -78,6 +78,9 @@
                         <% } %>
                       <p class="mb-0"><%=agenda.obj[i].text%></p>
                       <div class="d-flex justify-content-around" style="max-height: 1.5rem;">
+                        <form>
+                          <button type="button" class="btn btn-link" style="font-size: 15pt; text-decoration: none;" title="Edit" data-toggle="modal" data-target="#editform<%=i%>">&#9998;</button>
+                        </form>
                         <form action="../<%=group.groupName%>/agendaboard/delete/<%=i%>" method="post">
                           <button type="submit" class="btn btn-link" style="font-size: 15pt; text-decoration: none;" title="Delete">&#8999;</button>
                         </form>
@@ -88,6 +91,70 @@
                     </div>
                   </div>
                 <% } %>
+                <!-- Pop-up form for editing an item in Backlog-->
+                <div class="modal fade" id="editform<%=i%>" tabindex="-1" role="dialog" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header border-bottom-0">
+                        <h5 class="modal-title">Edit The Task</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <form action="#dillon" method="post">
+                        <div class="modal-body">
+                          <div class="form-group">
+                            <label for="prioritylevel">Priority level</label>
+                            <select class="custom-select" name="priority">
+                              <% if(agenda.priority[i].priority=="select") { %>
+                                <option selected value="select">select</option>
+                                <option value="high">High</option>
+                                <option value="medium">Medium</option>
+                                <option value="low">Low</option>
+                                <option value="onhold">On Hold</option>
+                              <% } %>
+                              <% if(agenda.priority[i].priority=="high") { %>
+                                <option value="select">select</option>
+                                <option selected value="high">High</option>
+                                <option value="medium">Medium</option>
+                                <option value="low">Low</option>
+                                <option value="onhold">On Hold</option>
+                              <% } %>
+                              <% if(agenda.priority[i].priority=="medium") { %>
+                                <option value="select">select</option>
+                                <option value="high">High</option>
+                                <option selected value="medium">Medium</option>
+                                <option value="low">Low</option>
+                                <option value="onhold">On Hold</option>
+                              <% } %>
+                              <% if(agenda.priority[i].priority=="low") { %>
+                                <option value="select">select</option>
+                                <option value="high">High</option>
+                                <option value="medium">Medium</option>
+                                <option selected value="low">Low</option>
+                                <option value="onhold">On Hold</option>
+                              <% } %>
+                              <% if(agenda.priority[i].priority=="onhold") { %>
+                                <option value="select">select</option>
+                                <option value="high">High</option>
+                                <option value="medium">Medium</option>
+                                <option value="low">Low</option>
+                                <option selected value="onhold">On Hold</option>
+                              <% } %>
+                            </select>
+                          </div>
+                          <div class="form-group">
+                            <label for="bio">Task Description</label>
+                            <textarea class="form-control" type="text" name="desc" id="description" rows="5" value="description" required><%=agenda.obj[i].text%></textarea>
+                          </div>
+                        </div>
+                        <div class="modal-footer border-top-0 d-flex justify-content-center">
+                          <button type="submit" class="btn btn-outline-primary">Save</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
               <% } %>
                 <!-- End task -->
             </div>
@@ -97,7 +164,7 @@
                 New +
               </button>  
             </div>
-            <div class="modal fade" id="form" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade" id="form" tabindex="-1" role="dialog" aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                   <div class="modal-header border-bottom-0">
@@ -124,7 +191,7 @@
                       </div>
                     </div>
                     <div class="modal-footer border-top-0 d-flex justify-content-center">
-                      <button type="submit" class="btn btn-outline-primary">Submit</button>
+                      <button type="submit" class="btn btn-outline-primary">Add</button>
                     </div>
                   </form>
                 </div>
@@ -177,6 +244,9 @@
                         <form action="../<%=group.groupName%>/agendaboard/editrowdown/<%=i%>" method="post">
                           <button type="submit" class="btn btn-link" style="font-size: 15pt; text-decoration: none;" title="Move left">&#9664;</button>
                         </form>
+                        <form>
+                          <button type="button" class="btn btn-link" style="font-size: 15pt; text-decoration: none;" title="Edit" data-toggle="modal" data-target="#editform<%=i%>">&#9998;</button>
+                        </form>
                         <form action="../<%=group.groupName%>/agendaboard/delete/<%=i%>" method="post">
                           <button type="submit" class="btn btn-link" style="font-size: 15pt; text-decoration: none;" title="Delete">&#8999;</button>
                         </form>
@@ -187,6 +257,70 @@
                     </div>
                   </div>
                 <% } %>
+                <!-- Pop-up form for editing an item in In Progress-->
+                <div class="modal fade" id="editform<%=i%>" tabindex="-1" role="dialog" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header border-bottom-0">
+                        <h5 class="modal-title">Edit The Task</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <form action="#dillon" method="post">
+                        <div class="modal-body">
+                          <div class="form-group">
+                            <label for="prioritylevel">Priority level</label>
+                            <select class="custom-select" name="priority">
+                              <% if(agenda.priority[i].priority=="select") { %>
+                                <option selected value="select">select</option>
+                                <option value="high">High</option>
+                                <option value="medium">Medium</option>
+                                <option value="low">Low</option>
+                                <option value="onhold">On Hold</option>
+                              <% } %>
+                              <% if(agenda.priority[i].priority=="high") { %>
+                                <option value="select">select</option>
+                                <option selected value="high">High</option>
+                                <option value="medium">Medium</option>
+                                <option value="low">Low</option>
+                                <option value="onhold">On Hold</option>
+                              <% } %>
+                              <% if(agenda.priority[i].priority=="medium") { %>
+                                <option value="select">select</option>
+                                <option value="high">High</option>
+                                <option selected value="medium">Medium</option>
+                                <option value="low">Low</option>
+                                <option value="onhold">On Hold</option>
+                              <% } %>
+                              <% if(agenda.priority[i].priority=="low") { %>
+                                <option value="select">select</option>
+                                <option value="high">High</option>
+                                <option value="medium">Medium</option>
+                                <option selected value="low">Low</option>
+                                <option value="onhold">On Hold</option>
+                              <% } %>
+                              <% if(agenda.priority[i].priority=="onhold") { %>
+                                <option value="select">select</option>
+                                <option value="high">High</option>
+                                <option value="medium">Medium</option>
+                                <option value="low">Low</option>
+                                <option selected value="onhold">On Hold</option>
+                              <% } %>
+                            </select>
+                          </div>
+                          <div class="form-group">
+                            <label for="bio">Task Description</label>
+                            <textarea class="form-control" type="text" name="desc" id="description" rows="5" value="description" required><%=agenda.obj[i].text%></textarea>
+                          </div>
+                        </div>
+                        <div class="modal-footer border-top-0 d-flex justify-content-center">
+                          <button type="submit" class="btn btn-outline-primary">Save</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
               <% } %>
               <!-- End task -->
             </div>
@@ -237,6 +371,9 @@
                         <form action="../<%=group.groupName%>/agendaboard/editrowdown/<%=i%>" method="post">
                           <button type="submit" class="btn btn-link" style="font-size: 15pt; text-decoration: none;" title="Move left">&#9664;</button>
                         </form>
+                        <form>
+                          <button type="button" class="btn btn-link" style="font-size: 15pt; text-decoration: none;" title="Edit" data-toggle="modal" data-target="#editform<%=i%>">&#9998;</button>
+                        </form>
                         <form action="../<%=group.groupName%>/agendaboard/delete/<%=i%>" method="post">
                           <button type="submit" class="btn btn-link" style="font-size: 15pt; text-decoration: none;" title="Delete">&#8999;</button>
                         </form>
@@ -244,6 +381,70 @@
                     </div>
                   </div>
                 <% } %>
+                <!-- Pop-up form for editing an item in Completed-->
+                <div class="modal fade" id="editform<%=i%>" tabindex="-1" role="dialog" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header border-bottom-0">
+                        <h5 class="modal-title">Edit The Task</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <form action="#dillon" method="post">
+                        <div class="modal-body">
+                          <div class="form-group">
+                            <label for="prioritylevel">Priority level</label>
+                            <select class="custom-select" name="priority">
+                              <% if(agenda.priority[i].priority=="select") { %>
+                                <option selected value="select">select</option>
+                                <option value="high">High</option>
+                                <option value="medium">Medium</option>
+                                <option value="low">Low</option>
+                                <option value="onhold">On Hold</option>
+                              <% } %>
+                              <% if(agenda.priority[i].priority=="high") { %>
+                                <option value="select">select</option>
+                                <option selected value="high">High</option>
+                                <option value="medium">Medium</option>
+                                <option value="low">Low</option>
+                                <option value="onhold">On Hold</option>
+                              <% } %>
+                              <% if(agenda.priority[i].priority=="medium") { %>
+                                <option value="select">select</option>
+                                <option value="high">High</option>
+                                <option selected value="medium">Medium</option>
+                                <option value="low">Low</option>
+                                <option value="onhold">On Hold</option>
+                              <% } %>
+                              <% if(agenda.priority[i].priority=="low") { %>
+                                <option value="select">select</option>
+                                <option value="high">High</option>
+                                <option value="medium">Medium</option>
+                                <option selected value="low">Low</option>
+                                <option value="onhold">On Hold</option>
+                              <% } %>
+                              <% if(agenda.priority[i].priority=="onhold") { %>
+                                <option value="select">select</option>
+                                <option value="high">High</option>
+                                <option value="medium">Medium</option>
+                                <option value="low">Low</option>
+                                <option selected value="onhold">On Hold</option>
+                              <% } %>
+                            </select>
+                          </div>
+                          <div class="form-group">
+                            <label for="bio">Task Description</label>
+                            <textarea class="form-control" type="text" name="desc" id="description" rows="5" value="description" required><%=agenda.obj[i].text%></textarea>
+                          </div>
+                        </div>
+                        <div class="modal-footer border-top-0 d-flex justify-content-center">
+                          <button type="submit" class="btn btn-outline-primary">Save</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
               <% } %>
                 <!-- End task -->
             </div>
