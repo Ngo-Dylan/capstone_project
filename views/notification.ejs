@@ -6,21 +6,86 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Group Page</title>
+  <link
+    rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
   <link 
     rel="stylesheet" 
-    href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" 
-    crossorigin="anonymous">
-  <link 
-    rel="stylesheet" 
-    href="main.css">
+    href="../../../notification.css">
 </head>
 
 <body>
+  <!-- Header -->
   <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
-    <h5>Notifications for <%=group.groupName%></h5>
-    <a class="btn btn-outline-primary" href="/user/group/<%=group.groupName%>">grouppage</a>
+    <h5 class="my-0 mr-md-auto font-weight-normal"><a href="/">KO-LAB</a></h5>
+    <a class="btn btn-outline-primary" href="../../logout">Log out</a>
   </div>
+
+  <!-- Nav bar -->
+  <main role="main">
+    <section class="jumbotron text-center" style="background-color: white; padding: 0rem 0rem;">
+      <div class="container">
+        <h1 class="jumbotron-heading" style="padding-top: 2rem;">Notifications</h1>
+        <p class="lead text-muted"></p>
+        <p style="padding-top: 1rem;">
+          <a class="btn btn-link" href="../<%=group.groupName%>/agendaboard">Agenda Board</a>
+          <a class="btn btn-link" href="../<%=group.groupName%>/calendar">Calendar</a>
+          <a class="btn btn-link" href="../<%=group.groupName%>/messenger">Messenger</a>
+          <a class="btn btn-link" href="../<%=group.groupName%>/list">List</a>
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <div class="main">
+    <div class="notificationList">
+      <header>
+        <div class="notificationBox">
+          <h2 class="title">New Notifications</h2>
+          <span id="numberNotification"></span>
+        </div>
+        <p class="btn btn-outline-primary" id="readAll">Mark All As Read</p>
+      </header>
+    </div>
+  </div>
+  <div class="notifications">
+    <main>
+        <div class="notificationCard unread">
+          <div class="description">
+            <p class="userActivity">
+              <strong>Dylan</strong> added to the calendar
+            </p>
+            <p class="time">1m ago</p>
+          </div>
+        </div>
+        <div class="notificationCard unread">
+          <div class="description">
+            <p class="userActivity">
+              <strong>Dillon</strong> joined the group
+            </p>
+            <p class="time">5m ago</p>
+          </div>
+        </div>
+      <div class="notificationCard">
+        <div class="description">
+          <p class="userActivity">
+            <strong>Marco</strong> has sent you a message.
+          </p>
+          <p class="time">1 day ago</p>
+        </div>
+      </div>
+      <div>
+        <div class="notificationCard unread">
+          <div class="description">
+            <p class="userActivity">
+              <strong>Matthew</strong> added to the agenda board
+            </p>
+            <p class="time">5 days ago</p>
+          </div>
+      </div>
+    </main>
+  </div>
+  
 
 
   <script 

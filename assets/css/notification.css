@@ -1,0 +1,80 @@
+.main {
+    display: flex;
+    justify-content: center;
+}
+
+.notifications {
+  display: flex;
+  justify-content: center;
+}
+
+.notificationList {
+  margin: 2rem;
+  width: 700px;
+  background-color: white;
+  padding: 1.5rem 1rem;
+  border-radius: 0.5rem;
+}
+
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+
+.notificationBox {
+    display: flex;
+    align-items: center;
+}
+
+
+.notifications {
+  align-items: center;
+}
+
+#numberNotification {
+    background-color: white;
+    margin-left: 0.5rem;
+    width: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    color: rgb(0, 0, 0);
+    font-weight: 800;
+    border-radius: 0.5rem;
+}
+
+#readAll {
+    cursor: pointer;
+}
+
+.notificationCard {
+  display: flex;
+  align-items: center;
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.description{
+  margin-left: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.unread{
+  background-color: hsl(211, 68%, 94%);
+}
+
+.unread p:first-of-type::after{
+  content: " ";
+  background-color: red;
+  width: 10px;
+  height: 10px;
+  display: inline-block;
+  border-radius: 50%;
+}
