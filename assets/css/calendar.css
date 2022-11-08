@@ -1,6 +1,7 @@
 body {
   display: flex;
   margin-top: 50px;
+  /* margin-left: 100px; */
   justify-content: center;
   background-color: #FFFCFF;
 }
@@ -141,3 +142,45 @@ button {
   position: absolute;
   background-color: rgba(0,0,0,0.8);
 }
+
+/* form */
+form {
+  margin: 100px 0 0 100px;
+  border: 2px solid #FFFFFF;
+  box-shadow: 0px 0px 3px #CBD4C2;
+  padding: 10px;
+  height: 10%;
+  border-radius: 5px;
+}
+
+form .form-title {
+  margin-left: 42%;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+label {
+  font-size: 20px;
+}
+
+#exampleInputEmail1 {
+  font-size: 18px;
+}
+
+textarea {
+  border: 1px solid #CBD4C2;
+  border-radius: 6px;
+  padding: 10px;
+  font-size: 18px;
+}
+
+.btn {
+  position: relative;
+  width: 200px;
+  margin: 20px;
+  left: 60px;
+  background-color: #58bae4;
+  border: none;
+  font-size: 20px;
+}
+

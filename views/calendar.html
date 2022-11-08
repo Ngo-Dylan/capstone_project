@@ -10,6 +10,7 @@
       href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" 
       crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="/assets/css/calendar.css"> 
     <title>Group Page</title>
   </head>
@@ -56,6 +57,30 @@
     </div>
 
     <div id="modalBackDrop"></div>
+
+    <div class="eventManager"></div>
+
+    <form>
+      <p class="form-title">Create an Event</p>
+      <div class="form-group">
+        <label for="exampleInputEmail1">Event Title</label>
+        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Give your event a title">
+      </div>
+      <div id="date-picker-example" class="md-form md-outline input-with-post-icon datepicker" inline="true">
+        <label for="example">Select a date for your event</label>
+        <input placeholder="Select date" type="text" id="example" class="form-control">
+        <i class="fas fa-calendar input-prefix"></i>
+      </div>
+      <div class="form-group">
+        <label for="exampleInputPassword1">Event Description</label> <br>
+        <textarea name="eventDescription" id="description" cols="100" rows="10" placeholder="Give a description for your event"></textarea>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Create Event</button>
+      <button type="submit" class="btn btn-primary">Edit</button>
+      <button type="submit" class="btn btn-primary">Delete</button>
+    </form>
+
   </body>
 
   <script>
@@ -74,7 +99,7 @@
     function openModal(date) {
       clicked = date;
 
-      const eventForDay = events.find(e => e.date === clicked);
+      //const eventForDay = events.find(e => e.date === clicked);
 
       if (eventForDay) {
           document.getElementById('eventText').innerText = eventForDay.title;
@@ -189,30 +214,38 @@
           load();
       });
 
-      document.getElementById('saveButton').addEventListener('click', saveEvent);
-      document.getElementById('cancelButton').addEventListener('click', closeModal);
-      document.getElementById('deleteButton').addEventListener('click', deleteEvent);
-      document.getElementById('closeButton').addEventListener('click', closeModal);
-      document.getElementById('closeButton').addEventListener('click', closeModal);
+      // document.getElementById('saveButton').addEventListener('click', saveEvent);
+      // document.getElementById('cancelButton').addEventListener('click', closeModal);
+      // document.getElementById('deleteButton').addEventListener('click', deleteEvent);
+      // document.getElementById('closeButton').addEventListener('click', closeModal);
+      // document.getElementById('closeButton').addEventListener('click', closeModal);
     }
 
     initButtons();
     load();
   </script>
+  
+  <script>
+    $('.datepicker').datepicker({
+      inline: true
+    });
+  </script>
 
-  <!-- <script 
+  <script 
   src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
   integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" 
   crossorigin="anonymous">
   </script>
+
   <script 
   src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
   integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" 
   crossorigin="anonymous">
   </script>
+  
   <script 
   src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
   integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" 
   crossorigin="anonymous">
-  </script> -->
+  </script>
 </html>
