@@ -621,4 +621,97 @@ router.get('/group/logout', async (req, res) => {
     res.redirect('/');
 });
 
+//profile page
+router.get('/editprofile', (req, res) => {
+
+    console.log("running");
+    const token = req.cookies.jwt;
+    const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
+    var userId = decoded.id;
+
+    try{
+    // Fetch the user by id
+    User.findOne({
+        _id: userId
+    }).then((user) => {
+        if (user) {
+            res.render('editprofile', {
+                user   
+            });
+        }
+    });
+    } catch (err) {
+        res.status(400).send(err);
+    }
+ });
+
+ router.get('/edit', (req, res) => {
+
+    console.log("running");
+    const token = req.cookies.jwt;
+    const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
+    var userId = decoded.id;
+
+    try{
+    // Fetch the user by id
+    User.findOne({
+        _id: userId
+    }).then((user) => {
+        if (user) {
+            res.render('edit', {
+                user   
+            });
+        }
+    });
+    } catch (err) {
+        res.status(400).send(err);
+    }
+ });
+
+ router.post('/editprofile', requireAuth, async (req, res) => {
+
+    const token = req.cookies.jwt;
+    const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
+    var userId = decoded.id;
+
+    const user = await User.findOne({
+        _id: userId
+    });
+    if (!user) return res.status(400).send('User is not found.');
+
+    User.findOneAndUpdate({
+        _id: userId
+    }, {
+        $set: {
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            phone: req.body.phone
+        }
+
+    }, {
+        new: true,
+        upsert: true
+    }, (err, doc) => {
+        if (err) {
+            console.log("something went wrong");
+        }
+
+        console.log("user updated");
+
+        console.log(req.body.phone)
+
+
+    });
+
+    try {
+        const savedUser = await user.save();
+
+        
+
+        res.redirect('/user/editprofile');
+    } catch (err) {
+        res.status(400).send(err);
+    }
+ });
+
 module.exports = router;
