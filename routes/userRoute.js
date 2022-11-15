@@ -669,49 +669,61 @@ router.get('/editprofile', (req, res) => {
  });
 
  router.post('/editprofile', requireAuth, async (req, res) => {
-
+    console.log("here")
     const token = req.cookies.jwt;
     const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
     var userId = decoded.id;
 
-    const user = await User.findOne({
-        _id: userId
-    });
-    if (!user) return res.status(400).send('User is not found.');
 
-    User.findOneAndUpdate({
-        _id: userId
-    }, {
-        $set: {
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            phone: req.body.phone
-        }
-
-    }, {
-        new: true,
-        upsert: true
-    }, (err, doc) => {
-        if (err) {
-            console.log("something went wrong");
-        }
-
-        console.log("user updated");
-
-        console.log(req.body.phone)
-
-
-    });
-
-    try {
-        const savedUser = await user.save();
-
-        
-
-        res.redirect('/user/editprofile');
-    } catch (err) {
-        res.status(400).send(err);
+    if (req.body.firstName) {
+        User.findOneAndUpdate({
+            _id: userId
+        }, {
+            $set: {
+                firstName: req.body.firstName
+            }
+        }, {
+            new: true
+        }, (err, doc) => {
+            if (err) {
+                console.log("Something went wrong");
+            }
+            console.log("First name updated");
+        });
     }
+    if (req.body.lastName) {
+        User.findOneAndUpdate({
+            _id: userId
+        }, {
+            $set: {
+                lastName: req.body.lastName
+            }
+        }, {
+            new: true
+        }, (err, doc) => {
+            if (err) {
+                console.log("Something went wrong");
+            }
+            console.log("Last name updated");
+        });
+    }
+    if (req.body.phone) {
+        User.findOneAndUpdate({
+            _id: userId
+        }, {
+            $set: {
+                phone: req.body.phone
+            }
+        }, {
+            new: true
+        }, (err, doc) => {
+            if (err) {
+                console.log("Something went wrong");
+            }
+            console.log("Phone updated");
+        });
+    }
+    res.redirect('/user/editprofile');
  });
 
 module.exports = router;

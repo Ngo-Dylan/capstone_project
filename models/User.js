@@ -12,39 +12,10 @@ const userSchema = new mongoose.Schema({
         max: 100,
         min: 4
     },
-    street: {
-        type: String,
-        min: 6
-    },
-    city: {
-        type: String,
-        min: 3
-    },
-    state: {
-        type: String,
-        min: 2
-    },
-    zip: {
-        type: String,
-        default: ""
-    },
-    title: {
-        type: String,
-        min: 2
-    },
-    occupation: {
-        type: String,
-        min: 4
-    },
     phone: {
         type: String,
         default: ""
     },
-    bio: {
-        type: String,
-        min: 10
-    },
-
     email: {
         type: String,
         min: 6,
