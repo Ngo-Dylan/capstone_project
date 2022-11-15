@@ -46,6 +46,7 @@
   <div class="container">
     <div class="row clearfix">
       <div class="col-lg-12">
+        <a class="btn btn-outline-primary" href="messenger/newmessage">messenger post page</a>
         <!-- Messenger Card -->
         <div class="card">
           <div class="chat">
@@ -58,7 +59,10 @@
                   </a>
                   <div class="chat-about">
                     <h4 class="mt-1" style="margin-bottom: -5px;"><%=group.groupName%>'s Group Chat</h4>
-                    <small>Last active: 10:15 AM, Oct 23</small>
+                    <% if(messenger.user.length>0) { %>
+                    <small>Last active: <%=messenger.time[messenger.user.length-1].time%>, <%=messenger.date[messenger.user.length-1].date%></small>
+                    <% } else { %>
+                    <% } %>
                 </div>
               </div>
             </div>
@@ -69,7 +73,28 @@
           <div class="chat-history">
             <div id="chat-history">
               <ul class="m-b-0">
-                <li class="clearfix">
+                <% for (var i = 0; i < messenger.user.length; i++) { %>
+                  <% if(messenger.user[i].user==user.email) { %>
+                    <li class="clearfix">
+                      <div class="message-data text-right">
+                        <span class="text-muted small text-nowrap" style="font-size: 8pt;"><%=messenger.time[i].time%>, <%=messenger.date[i].date%></span>
+                      </div>
+                      <div class="message my-message float-right"><%=messenger.message[i].text%></div>
+                    </li>
+                  <% } else { %>
+                    <li class="clearfix">
+                      <div class="message-data">
+                        <div class="font-weight-bold mb-1" style="padding-left: 6px; font-size: 14pt;"><%=messenger.user[i].user%>
+                          <span class="text-muted small text-nowrap" style="font-size: 8pt;">-</span>
+                          <span class="text-muted small text-nowrap" style="font-size: 8pt;"><%=messenger.time[i].time%>, <%=messenger.date[i].date%></span>
+                        </div>
+                      </div>
+                      <div class="message other-message"><%=messenger.message[i].text%></div>               
+                    </li> 
+                  <% } %>
+                <% } %>
+
+                          <!-- <li class="clearfix">
                   <div class="message-data text-right">
                     <span class="text-muted small text-nowrap" style="font-size: 8pt;">10:10 AM, Oct 23</span>
                   </div>
@@ -122,7 +147,7 @@
                     </div>
                   </div>
                   <div class="message other-message">Project has been already finished and I have results to show you.</div>
-                </li>
+                </li> -->
               </ul>
             </div>
           </div>
@@ -130,11 +155,11 @@
 
           <!-- Message Input -->
           <div class="chat-message clearfix">
-            <form>
+            <form action="../<%=group.groupName%>/messenger/newmessage/<%=messenger.user.length%>" method="post">
               <div class="form-row">
                 <div class="form-group col-md-11">
                   <!-- <input type="text" class="form-control" placeholder="Enter message here..." id="message" value="" required> -->
-                  <textarea class="form-control" type="text" id="message" rows="1" value="" placeholder="Enter message here..." required></textarea>
+                  <textarea class="form-control" type="text" id="message" name="message" rows="1" value="message" placeholder="Enter message here..." required></textarea>
                 </div>
                 <div class="form-group col-md-1">
                   <button type = "submit" class="btn input-group-text" style="padding: 0.375rem 1.15rem; font-size: 1.5rem; background-color: white; ">

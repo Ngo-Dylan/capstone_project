@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Sign In Page</title>
+	<link 
+    rel="stylesheet" 
+    href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" 
+    crossorigin="anonymous">
+	<link 
+    rel="stylesheet" 
+    href="main.css">
+</head>
+
+<body class="container">
+
+	<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+		<h5 class="my-0 mr-md-auto font-weight-normal"><a href="/">KO-LAB</a></h5>
+		<nav class="my-2 my-md-0 mr-md-3">
+			<a class="btn btn-outline-primary" href="signup">Sign up</a>
+		</nav>
+	</div>
+
+	<div class="container">
+    <div align="center">
+      <h1>
+        <span style="color: blue">Messenger Post Test</span>
+      </h1>
+      <form action="../messenger/newmessage/<%=messenger.message.length%>" method="post" style="padding-top: 20px;">
+        <div class="form-group" style="margin-bottom: 1.5rem">
+          <input type="message" name="message" id="message" placeholder="Message" required style="padding-block: 5px; width: 225px">
+        </div>
+        <button type="submit" class="btn btn-primary" style="padding-block: 5px; width: 100px">Login</button>
+      </form>
+    </div>
+    <footer class="index-footer">
+      <br>
+      <p>Group 5</p>
+    </footer>
+  </div>
+
+</body>
+</html>
