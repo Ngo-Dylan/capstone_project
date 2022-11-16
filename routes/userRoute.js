@@ -621,4 +621,109 @@ router.get('/group/logout', async (req, res) => {
     res.redirect('/');
 });
 
+//profile page
+router.get('/editprofile', (req, res) => {
+
+    console.log("running");
+    const token = req.cookies.jwt;
+    const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
+    var userId = decoded.id;
+
+    try{
+    // Fetch the user by id
+    User.findOne({
+        _id: userId
+    }).then((user) => {
+        if (user) {
+            res.render('editprofile', {
+                user   
+            });
+        }
+    });
+    } catch (err) {
+        res.status(400).send(err);
+    }
+ });
+
+ router.get('/edit', (req, res) => {
+
+    console.log("running");
+    const token = req.cookies.jwt;
+    const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
+    var userId = decoded.id;
+
+    try{
+    // Fetch the user by id
+    User.findOne({
+        _id: userId
+    }).then((user) => {
+        if (user) {
+            res.render('edit', {
+                user   
+            });
+        }
+    });
+    } catch (err) {
+        res.status(400).send(err);
+    }
+ });
+
+ router.post('/editprofile', requireAuth, async (req, res) => {
+    console.log("here")
+    const token = req.cookies.jwt;
+    const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
+    var userId = decoded.id;
+
+
+    if (req.body.firstName) {
+        User.findOneAndUpdate({
+            _id: userId
+        }, {
+            $set: {
+                firstName: req.body.firstName
+            }
+        }, {
+            new: true
+        }, (err, doc) => {
+            if (err) {
+                console.log("Something went wrong");
+            }
+            console.log("First name updated");
+        });
+    }
+    if (req.body.lastName) {
+        User.findOneAndUpdate({
+            _id: userId
+        }, {
+            $set: {
+                lastName: req.body.lastName
+            }
+        }, {
+            new: true
+        }, (err, doc) => {
+            if (err) {
+                console.log("Something went wrong");
+            }
+            console.log("Last name updated");
+        });
+    }
+    if (req.body.phone) {
+        User.findOneAndUpdate({
+            _id: userId
+        }, {
+            $set: {
+                phone: req.body.phone
+            }
+        }, {
+            new: true
+        }, (err, doc) => {
+            if (err) {
+                console.log("Something went wrong");
+            }
+            console.log("Phone updated");
+        });
+    }
+    res.redirect('/user/editprofile');
+ });
+
 module.exports = router;
