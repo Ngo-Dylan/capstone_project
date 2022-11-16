@@ -4,6 +4,7 @@ const User = require('../models/User');
 const Group = require('../models/Group');
 const AgendaBoard = require('../models/AgendaBoard');
 const List = require('../models/List');
+const Messenger = require('../models/Messenger');
 const jwt = require('jsonwebtoken');
 const {
     requireAuth
@@ -167,14 +168,86 @@ router.post('/group/:groupName/list/editelement/:id', async (req, res) => {
  });
 
  router.get('/group/:groupName/messenger', async (req, res) => {
+    const token = req.cookies.jwt;
+    const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
+    var userId = decoded.id;
+    const user = await User.findOne({
+        _id: userId
+    });
+    console.log(user.email)
     const group = await Group.findOne({
         groupName: req.params.groupName
     });
     if (!group) return res.status(400).send('Group is not found.');
     console.log(group)
-    res.render('messenger', {
-        group
+
+    const messenger = await Messenger.findOne({
+        group: req.params.groupName 
     });
+
+    if (!messenger) {
+        const messenger = new Messenger({
+            group: group.groupName
+        });
+        const messengerExists = await messenger.save();
+        console.log(messengerExists);
+        res.render('messenger', {
+        group, messenger, user
+    });
+    }
+    else{
+        res.render('messenger', {
+            group, messenger, user
+        });}
+ });
+
+ router.get('/group/:groupName/messenger/newmessage', async (req, res) => {
+    const group = await Group.findOne({
+        groupName: req.params.groupName
+    });
+    if (!group) return res.status(400).send('Group is not found.');
+
+    const messenger = await Messenger.findOne({
+        group: req.params.groupName 
+    }); 
+    res.render('messengerpost', {
+        group, messenger
+    });
+});
+
+ router.post('/group/:groupName/messenger/newmessage/:length', async (req, res) => {
+    const token = req.cookies.jwt;
+    const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
+    var userId = decoded.id;
+    const user = await User.findOne({
+        _id: userId
+    });
+
+    let dateobj = new Date();
+    let time = dateobj.getHours() + ":" + ("0" + (dateobj.getMinutes() + 1)).slice(-2);
+    let date = ("0" + (dateobj.getMonth() + 1)).slice(-2) + "/" + ("0" + dateobj.getDate()).slice(-2);
+
+    Messenger.findOneAndUpdate({
+        group: req.params.groupName 
+    }, {
+        $push: {
+            time: {id: req.params.length, time: time},
+            date: {id: req.params.length, date: date},
+            message: {id: req.params.length, text: req.body.message},
+            user: {id: req.params.length, user: user.email}
+        }
+    }, {
+        new: true
+    }, (err, doc) => {
+        if (err) {
+            console.log("Something went wrong");
+        }
+        console.log("Added to messenger");
+    }); 
+
+    const url = '/user/group/' + req.params.groupName + '/messenger';
+
+    res.redirect(url);
  });
 
  router.get('/group/:groupName/calendar', async (req, res) => {
