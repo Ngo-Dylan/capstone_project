@@ -5,38 +5,219 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Group Page</title>
-  <link 
-    rel="stylesheet" 
-    href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" 
-    crossorigin="anonymous">
-  <link 
-    rel="stylesheet" 
-    href="main.css">
+  <title>Calendar</title>
+
+  <link rel="stylesheet" href="../../../calendar.css">
+  <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" media="screen" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"/>
+  <link href="./css/prettify-1.0.css" rel="stylesheet">
+  <link href="./css/base.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.css" rel="stylesheet">
+  <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment-with-locales.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
 </head>
 
 <body>
-  <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
-    <h5>Calendar for <%=group.groupName%></h5>
-    <a class="btn btn-outline-primary" href="/user/group/<%=group.groupName%>">grouppage</a>
+  <main role="main" style="margin-bottom: 50px;">
+    <div style="display: flex;justify-content: space-between;">
+      <h3 style="margin-left: 20px; margin-top: 30px;"><a href="/" style="color: #0680FF">KO-LAB</a></h3>
+      <button type="button" class="btn" style="margin-right: 20px; margin-top: 20px; border: 1px solid #0680FF;background-color: transparent;"><a href="../../logout" style="color: #0680FF">Log out</a></button>
+    </div>
+    <hr class="featurette-divider">
+    <section class="jumbotron text-center" style="background-color: white; padding: 0rem 0rem;">
+      <div class="container">
+        
+        <h2 class="jumbotron-heading" style="padding-top: 2rem; font-size: 40px">Calendar</h2>
+        <p class="lead text-muted"></p>
+        <p style="padding-top: 1rem;">
+          <a class="btn btn-link" style="color: #0680FF; font-size: 17px" href="../<%=group.groupName%>/agendaboard">Agenda Board</a>
+          <a class="btn btn-link" style="color: #0680FF; font-size: 17px" href="../<%=group.groupName%>/list">Lists</a>
+          <a class="btn btn-link" style="color: #0680FF; font-size: 17px" href="../<%=group.groupName%>/messenger">Messenger</a>
+          <a class="btn btn-link" style="color: #0680FF; font-size: 17px" href="../<%=group.groupName%>/notification">Notifications</a>
+        </p>
+        <hr class="featurette-divider">
+      </div>
+      
+    </section>
+    
+  </main>
+  <div class="container">
+    <!-- Add event button -->
+    <p style="padding-bottom: 1rem;">
+      <button type="button" class="btn" style="margin-left: 15px;border: 1px solid #28A744;background-color: transparent;color: #28A744;" data-toggle="modal" data-target="#add_event_form">New +</button>
+    </p>
+    <!-- Pop-up form for adding an event -->
+    <div class="modal fade" id="add_event_form" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header border-bottom-0">
+            <h5 class="modal-title">Add New Event</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top: -20px;">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form action="" method="">
+            <div class="modal-body">
+              <div class="form-group">
+                <textarea class="form-control" type="text" name="title" id="title" rows="1" value="title" placeholder="Event Title" required></textarea>
+              </div>
+              <div class="form-group">
+                <div class='input-group date' id='datetimepicker'>
+                  <input type='text' class="form-control" placeholder="Select date and time"/>
+                  <span class="input-group-addon">
+                  <span class="glyphicon glyphicon-calendar"></span>
+                  </span>
+                </div>
+              </div>
+              <div class="form-group">
+                <textarea class="form-control" type="text" name="description" id="description" rows="3" value="description" placeholder="Description" required></textarea>
+              </div>
+              <script type="text/javascript">
+                $(function () {
+                    $('#datetimepicker').datetimepicker();
+                });
+              </script>
+
+            </div>
+            <div class="modal-footer border-top-0 d-flex justify-content-center">
+              <button type="submit" class="btn btn-outline-success">Add event</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- End pop-up form for adding an event -->
+
+    <section class="timeline_area section_padding_130">
+      <div class="container">
+        <!-- Timeline card -->
+        <div class="panel panel-default">
+          <div class="calendar">
+            <div class="calendar-history">
+              <div class="row">
+                <div class="col-12">
+                  <!-- Timeline Area-->
+                  <div class="apland-timeline-area">
+                    <!-- Single Timeline Content-->
+                    <div class="single-timeline-area">
+                      <div class="timeline-date wow fadeInLeft" data-wow-delay="0.1s" style="visibility: visible; animation-delay: 0.1s; animation-name: fadeInLeft;">
+                        <p>Today</p>
+                      </div>
+                      <div class="row">
+                        <div class="col-12 col-md-6 col-lg-4">
+                          <div class="single-timeline-content d-flex wow fadeInLeft" data-wow-delay="0.3s" style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInLeft;">
+                            <h5 style="color: #0680FF;">8:30 AM</h5>
+                            <div class="timeline-text">
+                              <h5>Event title</h5>
+                              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-4">
+                          <div class="single-timeline-content d-flex wow fadeInLeft" data-wow-delay="0.3s" style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInLeft;">
+                            <h5 style="color: #0680FF;">8:30 AM</h5>
+                            <div class="timeline-text">
+                              <h5>Event title</h5>
+                              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-4">
+                          <div class="single-timeline-content d-flex wow fadeInLeft" data-wow-delay="0.3s" style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInLeft;">
+                            <h5 style="color: #0680FF;">8:30 AM</h5>
+                            <div class="timeline-text">
+                              <h5>Event title</h5>
+                              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-4">
+                          <div class="single-timeline-content d-flex wow fadeInLeft" data-wow-delay="0.3s" style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInLeft;">
+                            <h5 style="color: #0680FF;">8:30 AM</h5>
+                            <div class="timeline-text">
+                              <h5>Event title</h5>
+                              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- </div> -->
+                      </div>
+                      <hr class="featurette-divider" style="border-color: #F2C410;">
+                    </div>
+                    <!-- Single Timeline Content-->
+                    <div class="single-timeline-area">
+                      <div class="timeline-date wow fadeInLeft" data-wow-delay="0.1s" style="visibility: visible; animation-delay: 0.1s; animation-name: fadeInLeft;">
+                        <p>Dec 1, 2022</p>
+                      </div>
+                      <div class="row">
+                        <div class="col-12 col-md-6 col-lg-4">
+                          <div class="single-timeline-content d-flex wow fadeInLeft" data-wow-delay="0.3s" style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInLeft;">
+                            <h5 style="color: #0680FF;">8:30 AM</h5>
+                            <div class="timeline-text">
+                              <h5>Event title</h5>
+                              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-4">
+                          <div class="single-timeline-content d-flex wow fadeInLeft" data-wow-delay="0.3s" style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInLeft;">
+                            <h5 style="color: #0680FF;">8:30 AM</h5>
+                            <div class="timeline-text">
+                              <h5>Event title</h5>
+                              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <hr class="featurette-divider" style="border-color: #F2C410;">
+                    </div>
+                    <!-- Single Timeline Content-->
+                    <div class="single-timeline-area">
+                      <div class="timeline-date wow fadeInLeft" data-wow-delay="0.1s" style="visibility: visible; animation-delay: 0.1s; animation-name: fadeInLeft;">
+                        <p>Dec 5, 2022</p>
+                      </div>
+                      <div class="row">
+                        <div class="col-12 col-md-6 col-lg-4">
+                          <div class="single-timeline-content d-flex wow fadeInLeft" data-wow-delay="0.3s" style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInLeft;">
+                            <h5 style="color: #0680FF;">8:30 AM</h5>
+                            <div class="timeline-text">
+                              <h5>Event title</h5>
+                              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <hr class="featurette-divider" style="border-color: #F2C410;">
+                    </div>
+    
+                    <!-- Single Timeline Content-->
+                    <div class="single-timeline-area">
+                      <div class="timeline-date wow fadeInLeft" data-wow-delay="0.1s" style="visibility: visible; animation-delay: 0.1s; animation-name: fadeInLeft;">
+                        <p>Dec 10, 2022</p>
+                      </div>
+                      <div class="row">
+                        <div class="col-12 col-md-6 col-lg-4">
+                          <div class="single-timeline-content d-flex wow fadeInLeft" data-wow-delay="0.3s" style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInLeft;">
+                            <h5 style="color: #0680FF;">8:30 AM</h5>
+                            <div class="timeline-text">
+                              <h5>Event title</h5>
+                              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <hr class="featurette-divider" style="background-color: #F2C410;">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
-
-
-  <script 
-    src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" 
-    crossorigin="anonymous">
-  </script>
-  <script 
-    src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" 
-    crossorigin="anonymous">
-  </script>
-  <script 
-    src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" 
-    crossorigin="anonymous">
-  </script>
 </body>
 </html>
