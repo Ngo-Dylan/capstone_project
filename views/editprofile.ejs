@@ -28,19 +28,45 @@
   <main role="main">
 
     <section class="jumbotron text-center" style="background-color: white; padding: 0rem 0rem;">
-        <div class="container">
+      <div class="container">
+        <% if (user.firstName) { %>
+          
+          <h1 class="jumbotron-heading">Welcome <%=user.firstName %></h1>
+          
+        <% } 
+          
+        else { %>
+
           <h1 class="jumbotron-heading">Welcome <%=user.email %></h1>
+
+        <% } %>
+
           <p class="lead text-muted"></p>
-        </div>
+
+      </div>
+      <hr class="featurette-divider">
+      <section style="padding-top: 2rem;">
+
+        <p style="padding-top: 2rem;">
+          <div class="d-flex justify-content-around">
+            <ul class="list-group" style="min-width: 300px;">
+              <li class="list-group-item active">Information:</li>
+              <li class="list-group-item">Email: <strong><%=user.email%></strong></li>
+              <li class="list-group-item">First Name: <strong><%=user.firstName%></strong></li>
+              <li class="list-group-item">Last Name: <strong><%=user.lastName%></strong></li>
+              <li class="list-group-item">Phone: <strong><%=user.phone%></strong></li>
+            </ul>
+          </div>
+        </p>
+
+        <p style = "padding-top: 2rem;">
+          <div class = "padding-left: 50px;">
+            <a class="btn btn-outline-primary" href="../../user/edit">Edit</a>
+          </div>
+        </p>
+
+      </section>
     </section>
-
-    <p>Email: <%=user.email%></p>
-    <p>Phone: <%=user.phone%></p>
-    <p>First Name: <%=user.firstName%></p>
-    <p>Last Name: <%=user.lastName%></p>
-
-
-    <a class="btn btn-outline-primary" href="../../user/edit">Edit</a>
 
 
 
