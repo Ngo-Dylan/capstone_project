@@ -12,7 +12,7 @@
 <body>
   <!-- Header -->
   <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
-    <h5 class="my-0 mr-md-auto font-weight-normal"><a href="/">App Name</a></h5>
+    <h5 class="my-0 mr-md-auto font-weight-normal"><a href="/">KO-LAB</a></h5>
     <a class="btn btn-outline-primary" href="../../logout">Log out</a>
   </div>
 
@@ -75,23 +75,54 @@
     <div class="card-columns">
       <!-- Start list card -->
       <% for (var i = 0; i < list.title.length; i++) { %>
-            <div class="card">
-                <img class="card-img-top" src="../../../list_cover.JPG" alt="Card image cap">
-                <div class="card-body">
-                <h5 class="card-title d-flex justify-content-between"><%=list.title[i].text%>
-                    <div class="btn-group dropright">
-                    <button type="button" class="btn btn-outline-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="line-height: 1; max-height: 2rem;"></button>
-                        <div class="dropdown-menu">
-                            <!-- Dropdown menu links -->
-                            <a class="dropdown-item" href="../<%=group.groupName%>/list/editelement/<%=i%>">Edit</a>
-                            <a class="dropdown-item" href="#">Delete</a>
-                        </div>
-                    </div>
-                </h5>
-                <p class="card-text"><%=list.desc[i].text%></p>
-                <p class="card-text"><small class="text-muted">created by <%=list.user[i].user%></small></p>
+        <div class="card">
+          <img class="card-img-top" src="../../../list_cover.JPG" alt="Card image cap">
+          <div class="card-body">
+            <h5 class="card-title d-flex justify-content-between"><%=list.title[i].text%>
+              <div class="btn-group dropright">
+                <button type="button" class="btn btn-outline-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="line-height: 1; max-height: 2rem;"></button>
+                <div class="dropdown-menu">
+                  <!-- Dropdown menu links -->
+                  <a class="dropdown-item" data-toggle="modal" data-target="#editform<%=i%>">Edit</a>
+                  <a class="dropdown-item" href="#">Delete</a>
+                </div>
+              </div>
+            </h5>
+            <p class="card-text"><%=list.desc[i].text%></p>
+            <p class="card-text"><small class="text-muted">created by <%=list.user[i].user%></small></p>
+          </div>
+        </div>
+
+        <!-- Pop-up form for editing an item -->
+        <div class="modal fade" id="editform<%=i%>" tabindex="-1" role="dialog" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header border-bottom-0">
+                <h5 class="modal-title">Edit The Task</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <form action="../<%=group.groupName%>/list/editelement/<%=i%>" method="post">
+                <div class="modal-body">
+                  <div class="form-group">
+                    <label for="bio">Title</label>
+                    <textarea class="form-control" type="text" name="title" id="title" rows="1" value="title" required><%=list.title[i].text%></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label for="bio">Task Description</label>
+                    <textarea class="form-control" type="text" name="desc" id="description" rows="5" value="description" required><%=list.desc[i].text%></textarea>
+                  </div>
+                </div>
+                <div class="modal-footer border-top-0 d-flex justify-content-center">
+                  <button type="submit" class="btn btn-outline-success">Done</button>
+                </div>
+              </form>
             </div>
-      </div>
+          </div>
+        </div>
+            <!-- end form -->
+
       <% } %>
       <!-- End list card -->
 
@@ -133,9 +164,6 @@
         </div>
       </div>
       End list card -->
-
-     
-      
     </div>
   </div>
 
