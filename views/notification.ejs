@@ -6,21 +6,63 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Group Page</title>
+  <link
+    rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
   <link 
     rel="stylesheet" 
-    href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" 
-    crossorigin="anonymous">
-  <link 
-    rel="stylesheet" 
-    href="main.css">
+    href="../../../notification.css">
 </head>
 
 <body>
+  <!-- Header -->
   <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
-    <h5>Notifications for <%=group.groupName%></h5>
-    <a class="btn btn-outline-primary" href="/user/group/<%=group.groupName%>">grouppage</a>
+    <h5 class="my-0 mr-md-auto font-weight-normal"><a href="/">KO-LAB</a></h5>
+    <a class="btn btn-outline-primary" href="../../logout">Log out</a>
   </div>
+
+  <!-- Nav bar -->
+  <main role="main">
+    <section class="jumbotron text-center" style="background-color: white; padding: 0rem 0rem;">
+      <div class="container">
+        <h1 class="jumbotron-heading" style="padding-top: 2rem;">Notifications</h1>
+        <p class="lead text-muted"></p>
+        <p style="padding-top: 1rem;">
+          <a class="btn btn-link" href="../<%=group.groupName%>/agendaboard">Agenda Board</a>
+          <a class="btn btn-link" href="../<%=group.groupName%>/calendar">Calendar</a>
+          <a class="btn btn-link" href="../<%=group.groupName%>/messenger">Messenger</a>
+          <a class="btn btn-link" href="../<%=group.groupName%>/list">List</a>
+        </p>
+      </div>
+    </section>
+    <hr class="featurette-divider">
+    <div class="container">
+      <header>
+        <div class="notificationBox">
+          <h2 class="title">New Notifications</h2>
+          <span id="numberNotification"></span>
+        </div>
+        <p class = "btn btn-outline-primary" id="readAll">Mark All As Read</p>
+      </header>
+      <section>
+        <% for (var i=0; i < notification.user.length; i++) { %>
+        <div class="notificationCard unread">
+          <div class="description">
+            <p class="userActivity">
+              <strong><%= notification.user[i].user %></strong> <%= notification.text[i].text %>
+                </p>
+            <p class="time">1m ago</p>
+          </div>
+        </div>
+        <% } %>
+
+        </div>
+      </section>
+    </div>
+  </main>
+
+  
+  
 
 
   <script 
@@ -37,6 +79,27 @@
     src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
     integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" 
     crossorigin="anonymous">
+  </script>
+
+  <script>
+    const unreadMessages = document.querySelectorAll(".unread");
+    const unread = document.getElementById("numberNotification");
+    const markAll = document.getElementById("readAll");
+    unread.innerText=unreadMessages.length
+   
+    unreadMessages.forEach((message) => {
+        message.addEventListener("click", () => {
+            message.classList.remove("unread");
+            const newUnreadMessages = document.querySelectorAll(".unread");
+            unread.innerText = newUnreadMessages.length;
+        })
+    })
+    
+    markAll.addEventListener("click", () => {
+        unreadMessages.forEach(message => message.classList.remove("unread"))
+        const newUnreadMessages = document.querySelectorAll(".unread");
+        unread.innerText = newUnreadMessages.length;
+    })
   </script>
 </body>
 </html>
