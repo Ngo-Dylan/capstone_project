@@ -4,6 +4,7 @@ const User = require('../models/User');
 const Group = require('../models/Group');
 const AgendaBoard = require('../models/AgendaBoard');
 const List = require('../models/List');
+const Notification = require('../models/Notification');
 const jwt = require('jsonwebtoken');
 const {
     requireAuth
@@ -24,10 +25,24 @@ const {
         groupName: req.params.groupName
     });
     if (!group) return res.status(400).send('Group is not found.');
-    console.log(group)
-    res.render('notification', {
-        group
+
+    const notification = await Notification.findOne({
+        group: req.params.groupName
     });
+    if (!notification) {
+        const notification = new Notification({
+            group: group.groupName
+        });
+        const notificationExists = await notification.save();
+        console.log(notificationExists);
+        res.render('notification', {
+        group, notification
+    });
+    }
+    else{
+        res.render('notification', {
+            group, notification
+        });}
  });
 
  router.get('/group/:groupName/list', async (req, res) => {
@@ -79,6 +94,22 @@ const {
             console.log("Something went wrong");
         }
         console.log("Added to list");
+    });
+
+    Notification.findOneAndUpdate({
+        group: req.params.groupName
+    }, {
+        $push: {
+            user: {user: user.email},
+            text: {text: " has added to the list."}
+        }
+    }, {
+        new: true
+    }, (err, doc) => {
+        if (err) {
+            console.log("Something went wrong");
+        }
+        console.log("Added to notification");
     });
 
     const url = '/user/group/' + req.params.groupName + '/list';
@@ -264,6 +295,22 @@ router.post('/group/:groupName/agendaboard/addelement/:length', async (req, res)
             console.log("Something went wrong");
         }
         console.log("Added to agendaboard");
+    });
+
+    Notification.findOneAndUpdate({
+        group: req.params.groupName
+    }, {
+        $push: {
+            user: {user: user.email},
+            text: {text: " has added to the agenda board."}
+        }
+    }, {
+        new: true
+    }, (err, doc) => {
+        if (err) {
+            console.log("Something went wrong");
+        }
+        console.log("Added to notification");
     });
 
     const url = '/user/group/' + req.params.groupName + '/agendaboard';
