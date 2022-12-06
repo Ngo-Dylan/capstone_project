@@ -344,6 +344,36 @@ router.post('/group/:groupName/agendaboard/addelement/:length', async (req, res)
     res.redirect(url);
 });
 
+//edit element
+router.post('/group/:groupName/agendaboard/editelement/:id', async (req, res) => {
+    const token = req.cookies.jwt;
+    const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
+    var userId = decoded.id;
+    const user = await User.findOne({
+        _id: userId
+    });
+    if (!user) return res.status(400).send('User is not found.');
+
+    if (req.body.priority) {
+        const agendaboard = await AgendaBoard.findOneAndUpdate({
+            group: req.params.groupName, "priority.id": req.params.id},
+            {$set: {"priority.$.priority": req.body.priority}
+        });
+        console.log(req.body.priority);
+    }
+    if (req.body.description) {
+        const agendaboard2 = await AgendaBoard.findOneAndUpdate({
+            group: req.params.groupName, "obj.id": req.params.id},
+            {$set: {"obj.$.text": req.body.description}
+        });
+    }
+
+    const url = '/user/group/' + req.params.groupName + '/agendaboard';
+
+    res.redirect(url);
+});
+ 
+
 //edit row up
 router.post('/group/:groupName/agendaboard/editrowup/:id', async (req, res) => {
     const agenda = await AgendaBoard.findOne({
