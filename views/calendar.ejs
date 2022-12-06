@@ -58,14 +58,14 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <form action="" method="">
+          <form action="../<%=group.groupName%>/calendar/addevent/<%=calendar.user.length%>" method="post">
             <div class="modal-body">
               <div class="form-group">
                 <textarea class="form-control" type="text" name="title" id="title" rows="1" value="title" placeholder="Event Title" required></textarea>
               </div>
               <div class="form-group">
                 <div class='input-group date' id='datetimepicker'>
-                  <input type='text' class="form-control" placeholder="Select date and time"/>
+                  <input type='text' name="datetime" id="datetime" value="datetime" class="form-control" placeholder="Select date and time"/>
                   <span class="input-group-addon">
                   <span class="glyphicon glyphicon-calendar"></span>
                   </span>
@@ -100,116 +100,66 @@
                 <div class="col-12">
                   <!-- Timeline Area-->
                   <div class="apland-timeline-area">
+                    
                     <!-- Single Timeline Content-->
-                    <div class="single-timeline-area">
-                      <div class="timeline-date wow fadeInLeft" data-wow-delay="0.1s" style="visibility: visible; animation-delay: 0.1s; animation-name: fadeInLeft;">
-                        <p>Today</p>
-                      </div>
-                      <div class="row">
+                    <% for (var i = 0; i < calendar.title.length; i++) { %> 
+                      <% if (i>0 && calendar.date[i].date==calendar.date[i-1].date) { %>
                         <div class="col-12 col-md-6 col-lg-4">
                           <div class="single-timeline-content d-flex wow fadeInLeft" data-wow-delay="0.3s" style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInLeft;">
-                            <h5 style="color: #0680FF;">8:30 AM</h5>
+                          
+                            <h5 style="color: #0680FF;"><%= calendar.time[i].time %></h5>
                             <div class="timeline-text">
-                              <h5>Event title</h5>
-                              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                              <h5><%= calendar.title[i].text %></h5>
+                              <p><%= calendar.description[i].desc %></p>
                             </div>
                           </div>
                         </div>
-                        <div class="col-12 col-md-6 col-lg-4">
-                          <div class="single-timeline-content d-flex wow fadeInLeft" data-wow-delay="0.3s" style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInLeft;">
-                            <h5 style="color: #0680FF;">8:30 AM</h5>
-                            <div class="timeline-text">
-                              <h5>Event title</h5>
-                              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                            </div>
+                        <% }else if (i==0){ %>
+                        <div class="single-timeline-area">
+                          <div class="timeline-date wow fadeInLeft" data-wow-delay="0.1s" style="visibility: visible; animation-delay: 0.1s; animation-name: fadeInLeft;">
+                            
+                            <p><%= calendar.date[i].date %></p>
                           </div>
-                        </div>
-                        <div class="col-12 col-md-6 col-lg-4">
-                          <div class="single-timeline-content d-flex wow fadeInLeft" data-wow-delay="0.3s" style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInLeft;">
-                            <h5 style="color: #0680FF;">8:30 AM</h5>
-                            <div class="timeline-text">
-                              <h5>Event title</h5>
-                              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                          <div class="row">
+                            <div class="col-12 col-md-6 col-lg-4">
+                              <div class="single-timeline-content d-flex wow fadeInLeft" data-wow-delay="0.3s" style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInLeft;">
+                              
+                                <h5 style="color: #0680FF;"><%= calendar.time[i].time %></h5>
+                                <div class="timeline-text">
+                                  <h5><%= calendar.title[i].text %></h5>
+                                  <p><%= calendar.description[i].desc %></p>
+                                </div>
+                              </div>
                             </div>
-                          </div>
-                        </div>
-                        <div class="col-12 col-md-6 col-lg-4">
-                          <div class="single-timeline-content d-flex wow fadeInLeft" data-wow-delay="0.3s" style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInLeft;">
-                            <h5 style="color: #0680FF;">8:30 AM</h5>
-                            <div class="timeline-text">
-                              <h5>Event title</h5>
-                              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                            <% } else { %> 
                             </div>
-                          </div>
-                        </div>
-                        <!-- </div> -->
-                      </div>
-                      <hr class="featurette-divider" style="border-color: #F2C410;">
+                            <hr class="featurette-divider" style="border-color: #F2C410;">
+                          </div> 
+                          <div class="single-timeline-area">
+                            <div class="timeline-date wow fadeInLeft" data-wow-delay="0.1s" style="visibility: visible; animation-delay: 0.1s; animation-name: fadeInLeft;">
+                              
+                              <p><%= calendar.date[i].date %></p>
+                            </div>
+                            <div class="row">
+                              <div class="col-12 col-md-6 col-lg-4">
+                                <div class="single-timeline-content d-flex wow fadeInLeft" data-wow-delay="0.3s" style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInLeft;">
+                                
+                                  <h5 style="color: #0680FF;"><%= calendar.time[i].time %></h5>
+                                  <div class="timeline-text">
+                                    <h5><%= calendar.title[i].text %></h5>
+                                    <p><%= calendar.description[i].desc %></p>
+                                  </div>
+                                </div>
+                              </div>
+                        <% } %>
+                    <% } %> 
+                    <% if(calendar.title.length != 0) { %>
                     </div>
-                    <!-- Single Timeline Content-->
-                    <div class="single-timeline-area">
-                      <div class="timeline-date wow fadeInLeft" data-wow-delay="0.1s" style="visibility: visible; animation-delay: 0.1s; animation-name: fadeInLeft;">
-                        <p>Dec 1, 2022</p>
-                      </div>
-                      <div class="row">
-                        <div class="col-12 col-md-6 col-lg-4">
-                          <div class="single-timeline-content d-flex wow fadeInLeft" data-wow-delay="0.3s" style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInLeft;">
-                            <h5 style="color: #0680FF;">8:30 AM</h5>
-                            <div class="timeline-text">
-                              <h5>Event title</h5>
-                              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-12 col-md-6 col-lg-4">
-                          <div class="single-timeline-content d-flex wow fadeInLeft" data-wow-delay="0.3s" style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInLeft;">
-                            <h5 style="color: #0680FF;">8:30 AM</h5>
-                            <div class="timeline-text">
-                              <h5>Event title</h5>
-                              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <hr class="featurette-divider" style="border-color: #F2C410;">
-                    </div>
-                    <!-- Single Timeline Content-->
-                    <div class="single-timeline-area">
-                      <div class="timeline-date wow fadeInLeft" data-wow-delay="0.1s" style="visibility: visible; animation-delay: 0.1s; animation-name: fadeInLeft;">
-                        <p>Dec 5, 2022</p>
-                      </div>
-                      <div class="row">
-                        <div class="col-12 col-md-6 col-lg-4">
-                          <div class="single-timeline-content d-flex wow fadeInLeft" data-wow-delay="0.3s" style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInLeft;">
-                            <h5 style="color: #0680FF;">8:30 AM</h5>
-                            <div class="timeline-text">
-                              <h5>Event title</h5>
-                              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <hr class="featurette-divider" style="border-color: #F2C410;">
-                    </div>
-    
-                    <!-- Single Timeline Content-->
-                    <div class="single-timeline-area">
-                      <div class="timeline-date wow fadeInLeft" data-wow-delay="0.1s" style="visibility: visible; animation-delay: 0.1s; animation-name: fadeInLeft;">
-                        <p>Dec 10, 2022</p>
-                      </div>
-                      <div class="row">
-                        <div class="col-12 col-md-6 col-lg-4">
-                          <div class="single-timeline-content d-flex wow fadeInLeft" data-wow-delay="0.3s" style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInLeft;">
-                            <h5 style="color: #0680FF;">8:30 AM</h5>
-                            <div class="timeline-text">
-                              <h5>Event title</h5>
-                              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <hr class="featurette-divider" style="background-color: #F2C410;">
-                    </div>
+                    <hr class="featurette-divider" style="border-color: #F2C410;">
+                  </div>
+                  <% } %>
+                   
+                    
                   </div>
                 </div>
               </div>
