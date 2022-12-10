@@ -119,33 +119,6 @@ const {
     res.redirect(url);
 });
 
-router.get('/group/:groupName/list/editelement/:length', async (req, res) => {
-    const group = await Group.findOne({
-        groupName: req.params.groupName
-    });
-    if (!group) return res.status(400).send('Group is not found.');
-
-    const id = req.params.length;
-
-    const list = await List.findOne({
-        group: req.params.groupName
-    });
-    if (!list) {
-        const list = new List({
-            group: group.groupName
-        });
-        const listExists = await list.save();
-        console.log(listExists);
-        res.render('editList', {
-        group, list, id
-    });
-    }
-    else{
-        res.render('editList', {
-            group, list, id
-        });}
- });
-
 router.post('/group/:groupName/list/editelement/:id', async (req, res) => {
     const token = req.cookies.jwt;
     const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
@@ -168,8 +141,84 @@ router.post('/group/:groupName/list/editelement/:id', async (req, res) => {
         });
     }
 
+    Notification.findOneAndUpdate({
+        group: req.params.groupName
+    }, {
+        $push: {
+            user: {user: user.email},
+            text: {text: " has edited the list."}
+        }
+    }, {
+        new: true
+    }, (err, doc) => {
+        if (err) {
+            console.log("Something went wrong");
+        }
+        console.log("Added to notification");
+    });
+
     const url = '/user/group/' + req.params.groupName + '/list';
 
+    res.redirect(url);
+});
+
+//delete an element
+router.post('/group/:groupName/list/delete/:id', async (req, res) => {
+    const token = req.cookies.jwt;
+    const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
+    var userId = decoded.id;
+    const user = await User.findOne({
+        _id: userId
+    });
+    if (!user) return res.status(400).send('User is not found.');
+    console.log("here");
+    const list = await List.findOne({
+        group: req.params.groupName
+    });
+
+    var listTitle = list.title;
+    var listDesc = agenda.desc;
+    var listUser = agenda.user;
+    listTitle.splice(req.params.id, 1);
+    listDesc.splice(req.params.id, 1);
+    listUser.splice(req.params.id, 1);
+    
+    for (let i = req.params.id; i<listTitle.length; i++){
+        listTitle[i].id--
+    }
+    for (let i = req.params.id; i<listDesc.length; i++){
+        listDesc[i].id--
+    }
+    for (let i = req.params.id; i<listUser.length; i++){
+        listUser[i].id--
+    }
+
+    const list2 = await List.findOneAndUpdate({
+        group: req.params.groupName},
+        {$set: {
+            title: listTitle,
+            desc: listDesc, 
+            user: listUser
+        }
+    });
+
+    Notification.findOneAndUpdate({
+        group: req.params.groupName
+    }, {
+        $push: {
+            user: {user: user.email},
+            text: {text: " has deleted a list."}
+        }
+    }, {
+        new: true
+    }, (err, doc) => {
+        if (err) {
+            console.log("Something went wrong");
+        }
+        console.log("Added to notification");
+    });
+
+    const url = '/user/group/' + req.params.groupName + '/list';
     res.redirect(url);
 });
 
@@ -233,20 +282,6 @@ router.post('/group/:groupName/list/editelement/:id', async (req, res) => {
         });}
  });
 
- router.get('/group/:groupName/messenger/newmessage', async (req, res) => {
-    const group = await Group.findOne({
-        groupName: req.params.groupName
-    });
-    if (!group) return res.status(400).send('Group is not found.');
-
-    const messenger = await Messenger.findOne({
-        group: req.params.groupName 
-    }); 
-    res.render('messengerpost', {
-        group, messenger
-    });
-});
-
  router.post('/group/:groupName/messenger/newmessage/:length', async (req, res) => {
     const token = req.cookies.jwt;
     const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
@@ -276,6 +311,23 @@ router.post('/group/:groupName/list/editelement/:id', async (req, res) => {
         }
         console.log("Added to messenger");
     }); 
+
+    Notification.findOneAndUpdate({
+        group: req.params.groupName
+    }, {
+        $push: {
+            user: {user: user.email},
+            text: {text: " has sent a message."}
+        }
+    }, {
+        new: true
+    }, (err, doc) => {
+        if (err) {
+            console.log("Something went wrong");
+        }
+        console.log("Added to notification");
+    });
+
 
     const url = '/user/group/' + req.params.groupName + '/messenger';
 
@@ -372,14 +424,6 @@ router.post('/group/:groupName/list/editelement/:id', async (req, res) => {
     console.log(hour);
     console.log(minute);
     console.log(ampm);
-
-    //MAKE 
-    //12pm
-    //come
-    //before
-    //1pm
-    //on.
-    //Ex. 1pm, 2pm, 12pm
 
     var index = 0;
     var found = false;
@@ -509,22 +553,6 @@ router.post('/group/:groupName/list/editelement/:id', async (req, res) => {
             calendarUser[i].id++;
         }
     }
-    // for(let i=0; i<calendarTitle.length; i++){
-    //     console.log(calendarTitle[i]);
-    // }
-    // for(let i=0; i<calendarDate.length; i++){
-    //     console.log(calendarDate[i]);
-    // }
-    // for(let i=0; i<calendarTime.length; i++){
-    //     console.log(calendarTime[i]);
-    // }
-    // for(let i=0; i<calendarDescription.length; i++){
-    //     console.log(calendarDescription[i]);
-    // }
-    // for(let i=0; i<calendarUser.length; i++){
-    //     console.log(calendarUser[i]);
-    // }
- 
 
     const calendar2 = await Calendar.findOneAndUpdate({
         group: req.params.groupName},
@@ -535,6 +563,22 @@ router.post('/group/:groupName/list/editelement/:id', async (req, res) => {
             description: calendarDescription, 
             user: calendarUser
         }
+    });
+
+    Notification.findOneAndUpdate({
+        group: req.params.groupName
+    }, {
+        $push: {
+            user: {user: user.email},
+            text: {text: " added an event in the calendar."}
+        }
+    }, {
+        new: true
+    }, (err, doc) => {
+        if (err) {
+            console.log("Something went wrong");
+        }
+        console.log("Added to notification");
     });
 
     const url = '/user/group/' + req.params.groupName + '/calendar';
@@ -665,6 +709,22 @@ router.post('/group/:groupName/agendaboard/editelement/:id', async (req, res) =>
         });
     }
 
+    Notification.findOneAndUpdate({
+        group: req.params.groupName
+    }, {
+        $push: {
+            user: {user: user.email},
+            text: {text: " edited an element in the agenda board."}
+        }
+    }, {
+        new: true
+    }, (err, doc) => {
+        if (err) {
+            console.log("Something went wrong");
+        }
+        console.log("Added to notification");
+    });
+
     const url = '/user/group/' + req.params.groupName + '/agendaboard';
 
     res.redirect(url);
@@ -704,6 +764,14 @@ router.post('/group/:groupName/agendaboard/editrowdown/:id', async (req, res) =>
 
 //delete an element
 router.post('/group/:groupName/agendaboard/delete/:id', async (req, res) => {
+    const token = req.cookies.jwt;
+    const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
+    var userId = decoded.id;
+    const user = await User.findOne({
+        _id: userId
+    });
+    if (!user) return res.status(400).send('User is not found.');
+    
     const agenda = await AgendaBoard.findOne({
         group: req.params.groupName
     });
@@ -738,6 +806,22 @@ router.post('/group/:groupName/agendaboard/delete/:id', async (req, res) => {
             user: agendaUser,
             priority: agendaPriority
         }
+    });
+
+    Notification.findOneAndUpdate({
+        group: req.params.groupName
+    }, {
+        $push: {
+            user: {user: user.email},
+            text: {text: " has deleted an element in the agenda board."}
+        }
+    }, {
+        new: true
+    }, (err, doc) => {
+        if (err) {
+            console.log("Something went wrong");
+        }
+        console.log("Added to notification");
     });
 
     const url = '/user/group/' + req.params.groupName + '/agendaboard';
