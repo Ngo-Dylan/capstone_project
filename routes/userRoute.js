@@ -177,8 +177,8 @@ router.post('/group/:groupName/list/delete/:id', async (req, res) => {
     });
 
     var listTitle = list.title;
-    var listDesc = agenda.desc;
-    var listUser = agenda.user;
+    var listDesc = list.desc;
+    var listUser = list.user;
     listTitle.splice(req.params.id, 1);
     listDesc.splice(req.params.id, 1);
     listUser.splice(req.params.id, 1);
