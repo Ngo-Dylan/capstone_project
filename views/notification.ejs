@@ -45,13 +45,12 @@
         <p class = "btn btn-outline-primary" id="readAll">Mark All As Read</p>
       </header>
       <section>
-        <% for (var i=0; i < notification.user.length; i++) { %>
+        <% for (var i=(notification.user.length - 1); i >= 0; i--) { %>
         <div class="notificationCard unread">
           <div class="description">
             <p class="userActivity">
               <strong><%= notification.user[i].user %></strong> <%= notification.text[i].text %>
                 </p>
-            <p class="time">1m ago</p>
           </div>
         </div>
         <% } %>
